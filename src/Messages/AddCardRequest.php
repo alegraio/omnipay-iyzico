@@ -1,7 +1,7 @@
 <?php
+namespace Omnipay\Iyzico\Messages;
 
-
-class AuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
+class AddCardRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
     /**

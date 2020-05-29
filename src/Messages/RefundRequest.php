@@ -1,7 +1,7 @@
 <?php
+namespace Omnipay\Iyzico\Messages;
 
-
-class DeleteCardRequest extends \Omnipay\Common\Message\AbstractRequest
+class RefundRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
     /**

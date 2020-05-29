@@ -35,9 +35,9 @@ class IyzicoGateway extends AbstractGateway
         return $this->getParameter("apiKey");
     }
 
-    public function getApiSecret()
+    public function getSecretKey()
     {
-        return $this->getParameter("apiSecret");
+        return $this->getParameter("secretKey");
     }
 
     public function getBaseUrl()
@@ -49,9 +49,9 @@ class IyzicoGateway extends AbstractGateway
         return $this->setParameter('apiKey', $apiKey);
     }
 
-    public function setApiSecret($apiSecret)
+    public function setSecretKey($apiSecret)
     {
-        return $this->setParameter('apiSecret', $apiSecret);
+        return $this->setParameter('secretKey', $apiSecret);
     }
 
     public function setBaseUrl($baseUrl)
@@ -99,7 +99,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function refund(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\PayU\Messages\RefundRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\RefundRequest', $parameters);
     }
 
     /**
@@ -152,7 +152,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function installmentInfo(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\PayU\Messages\InstallmentInfoRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\InstallmentInfoRequest', $parameters);
     }
 
 

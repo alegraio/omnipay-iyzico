@@ -1,7 +1,7 @@
 <?php
+namespace Omnipay\Iyzico\Messages;
 
-
-class RefundRequest extends \Omnipay\Common\Message\AbstractRequest
+class Purchase3dRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
     /**

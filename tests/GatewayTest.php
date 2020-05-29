@@ -2,17 +2,22 @@
 
 namespace Omnipay\Tests;
 
+use Iyzipay\Model\Locale;
 use Omnipay\Iyzico\IyzicoGateway;
-use PHPUnit\Framework\TestCase;
 
 class GatewayTest extends GatewayTestCase
 {
+    /**
+     * @var array
+     */
+    private $parameters;
+
     public function setUp()
     {
         /** @var IyzicoGateway gateway */
         $this->gateway = new IyzicoGateway(null, $this->getHttpRequest());
-        $this->gateway->setApiKey('API_KEY');
-        $this->gateway->setApiSecret('API_SECRET');
+        $this->gateway->setApiKey('sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX');
+        $this->gateway->setSecretKey('sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ');
         $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
     }
 
@@ -68,6 +73,13 @@ class GatewayTest extends GatewayTestCase
 
     public function testInstallmentInfo()
     {
+        $this->parameters = [
+            'locale' => Locale::TR,
+            'binNumber' => '554960',
+            'price' => 100,
+        ];
 
+        $response = $this->gateway->installmentInfo($this->parameters)->send();
+        var_dump($response);
     }
 }
