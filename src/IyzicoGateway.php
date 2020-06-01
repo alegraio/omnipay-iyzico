@@ -5,6 +5,8 @@
 
 namespace Omnipay\Iyzico;
 
+use Exception;
+use Iyzipay\Model\Locale;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\RequestInterface;
@@ -14,7 +16,6 @@ use Omnipay\Common\Message\RequestInterface;
  * @method \Omnipay\Common\Message\NotificationInterface acceptNotification(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface fetchTransaction(array $options = [])
  * @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
@@ -44,6 +45,7 @@ class IyzicoGateway extends AbstractGateway
     {
         return $this->getParameter("baseUrl");
     }
+
     public function setApiKey($apiKey)
     {
         return $this->setParameter('apiKey', $apiKey);
@@ -62,18 +64,31 @@ class IyzicoGateway extends AbstractGateway
     /**
      * @inheritDoc
      */
-    public function authorize(array $parameters = array()){
+    public function authorize(array $parameters = array())
+    {
         return $this->createRequest('\Omnipay\Iyzico\Messages\AuthorizeRequest', $parameters);
     }
 
     /* Payment Actions  */
 
     /**
-     * @inheritDoc
+     * @param array $parameters
+     * @return mixed|AbstractRequest|RequestInterface
+     * @throws Exception
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Messages\PurchaseRequest', $parameters);
+        $force3ds = isset($parameters['force3ds']) ? $parameters['force3ds'] : 'auto';
+        switch ($force3ds) {
+            case "auto":
+                return $this->purchaseAuto($parameters);
+            case "0":
+                return $this->createRequest('\Omnipay\Iyzico\Messages\PurchaseRequest', $parameters);
+            case "1":
+                return $this->createRequest('\Omnipay\Iyzico\Messages\Purchase3dRequest', $parameters);
+            default:
+                throw new Exception("The parameter -> 'force3ds' should be '0','1' or 'auto'");
+        }
     }
 
     /**
@@ -83,6 +98,15 @@ class IyzicoGateway extends AbstractGateway
     public function purchase3d(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\Purchase3dRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return AbstractRequest
+     */
+    public function completePurchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Iyzico\Messages\CompletePurchaseRequest', $parameters);
     }
 
     /**
@@ -155,6 +179,35 @@ class IyzicoGateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Iyzico\Messages\InstallmentInfoRequest', $parameters);
     }
 
+    /**
+     * @param array $parameters
+     * @return mixed|AbstractRequest|RequestInterface
+     * @throws Exception
+     */
+    public function purchaseAuto(array $parameters)
+    {
+        try {
+            if (isset($parameters["paymentCard"]["cardNumber"]) && $cardNumber = $parameters["paymentCard"]["cardNumber"]) {
+                $cardNumber = trim(preg_replace("/[^0-9]/", "", $cardNumber)); // drop non numeric characters and trim spaces
+                $installmentInfoParameters = [
+                    'locale' => Locale::TR,
+                    'binNumber' => substr($cardNumber, 0, 6),
+                    'price' => 999,
+                ];
 
+                $response = $this->installmentInfo($installmentInfoParameters)->send();
+                $installmentData = $response->getData();
+                $installmentDetails = $installmentData->getInstallmentDetails();
+                $installmentDetail = $installmentDetails[0];
+                $force3ds = (string)$installmentDetail->getForce3ds();
+            } else {
+                throw new Exception("Card number is missing in parameters");
+            }
+        } catch (Exception $exception) {
+            throw new Exception("Couldn't fetch 3d information of card number");
+        }
+        $parameters["force3ds"] = $force3ds;
+        return $this->purchase($parameters);
+    }
 
 }
