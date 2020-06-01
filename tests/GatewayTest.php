@@ -16,8 +16,8 @@ class GatewayTest extends GatewayTestCase
     {
         /** @var IyzicoGateway gateway */
         $this->gateway = new IyzicoGateway(null, $this->getHttpRequest());
-        $this->gateway->setApiKey('sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX');
-        $this->gateway->setSecretKey('sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ');
+        $this->gateway->setApiKey('sandbox-xxxxx');
+        $this->gateway->setSecretKey('sandbox-xxxxx');
         $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
     }
 
