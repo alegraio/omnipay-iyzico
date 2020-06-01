@@ -1,0 +1,26 @@
+{
+  "name": "omnipay/iyzico",
+  "type": "library",
+  "description": "Iyzico gateway for Omnipay payment processing library",
+  "homepage": "https://github.com/alegraio/omnipay-iyzico",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Omnipay\\Iyzico\\": "src/"
+    }
+  },
+  "require": {
+    "omnipay/common": "^3",
+    "iyzico/iyzipay-php": "~2.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "omnipay/tests": "^3"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "3.0.x-dev"
+    }
+  },
+  "prefer-stable": true
+}
