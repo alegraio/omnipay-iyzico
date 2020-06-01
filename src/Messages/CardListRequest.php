@@ -1,15 +1,56 @@
 <?php
 namespace Omnipay\Iyzico\Messages;
 
-class CardListRequest extends \Omnipay\Common\Message\AbstractRequest
+use Iyzipay\Model\CardList;
+use Iyzipay\Model\Locale;
+use Iyzipay\Request\RetrieveCardListRequest;
+
+class CardListRequest extends AbstractRequest
 {
+
+    public function setLocale($locale)
+    {
+        $this->setParameter("locale", $locale);
+    }
+
+    public function getLocale()
+    {
+        return !empty($this->getParameter("locale")) ? $this->getParameter("locale") : Locale::TR;
+    }
+
+    public function getCardUserKey()
+    {
+        return $this->getParameter("cardUserKey");
+    }
+
+    public function setCardUserKey($cardUserKey)
+    {
+        $this->setParameter("cardUserKey", $cardUserKey);
+    }
+
+    public function buildTransactionID()
+    {
+        $data = array(
+            "locale" => $this->getLocale(),
+            "cardUserKey" => $this->getCardUserKey(),
+            "id" => uniqid(),
+            "timestamp" => date("YmdHis")
+        );
+        $data = serialize($data);
+        return hash_hmac("sha1", $data, $this->getSecretKey());
+    }
 
     /**
      * @inheritDoc
      */
     public function getData()
     {
-        // TODO: Implement getData() method.
+        $request = new RetrieveCardListRequest();
+        $request->setLocale($this->getLocale());
+        $request->setConversationId($this->buildTransactionID());
+        $request->setCardUserKey($this->getCardUserKey());
+
+        return $request;
     }
 
     /**
@@ -17,6 +58,8 @@ class CardListRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function sendData($data)
     {
-        // TODO: Implement sendData() method.
+        $options = $this->getOptions();
+        return new CardListResponse($this, CardList::retrieve($data, $options));
     }
+
 }

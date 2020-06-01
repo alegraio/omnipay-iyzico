@@ -63,7 +63,7 @@ class IyzicoGateway extends AbstractGateway
      * @inheritDoc
      */
     public function authorize(array $parameters = array()){
-        return $this->createRequest('\Omnipay\Iyzico\Message\AuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\AuthorizeRequest', $parameters);
     }
 
     /* Payment Actions  */
@@ -73,7 +73,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\PurchaseRequest', $parameters);
     }
 
     /**
@@ -82,7 +82,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function purchase3d(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\Purchase3dRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\Purchase3dRequest', $parameters);
     }
 
     /**
@@ -91,7 +91,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function purchaseInfo(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\PurchaseInfoRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\PurchaseInfoRequest', $parameters);
     }
 
     /**
@@ -108,7 +108,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function cancelPurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\CancelPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\CancelPurchaseRequest', $parameters);
     }
 
     /* Card Actions  */
@@ -117,7 +117,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function createCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\CreateCardRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\CreateCardRequest', $parameters);
     }
 
     /**
@@ -126,7 +126,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function addCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\AddCardRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\AddCardRequest', $parameters);
     }
 
     /**
@@ -135,7 +135,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function getCardList(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\CardListRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\CardListRequest', $parameters);
     }
 
     /**
@@ -143,7 +143,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function deleteCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Iyzico\Message\DeleteCardRequest', $parameters);
+        return $this->createRequest('\Omnipay\Iyzico\Messages\DeleteCardRequest', $parameters);
     }
 
     /**

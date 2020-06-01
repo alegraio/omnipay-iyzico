@@ -63,7 +63,13 @@ class GatewayTest extends GatewayTestCase
 
     public function testGetCardList()
     {
+        $this->parameters = [
+            'locale' => Locale::TR,
+            'cardUserKey' => 'card user key'
+        ];
 
+        $response = $this->gateway->getCardList($this->parameters)->send();
+        var_dump($response);
     }
 
     public function testCancelPurchase()
