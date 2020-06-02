@@ -85,7 +85,7 @@ class IyzicoGateway extends AbstractGateway
             case "0":
                 return $this->createRequest('\Omnipay\Iyzico\Messages\PurchaseRequest', $parameters);
             case "1":
-                return $this->createRequest('\Omnipay\Iyzico\Messages\Purchase3dRequest', $parameters);
+                return $this->purchase3d($parameters);
             default:
                 throw new Exception("The parameter -> 'force3ds' should be '0','1' or 'auto'");
         }
