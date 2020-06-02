@@ -5,7 +5,6 @@ use Iyzipay\Model\Address;
 use Iyzipay\Model\BasketItem;
 use Iyzipay\Model\Buyer;
 use Iyzipay\Model\Locale;
-use Iyzipay\Model\Payment;
 use Iyzipay\Model\PaymentCard;
 use Iyzipay\Model\ThreedsInitialize;
 use Iyzipay\Request\CreatePaymentRequest;
@@ -169,10 +168,6 @@ class Purchase3dRequest extends AbstractRequest
         return hash_hmac("sha1", $data, $this->getSecretKey());
     }
 
-    private function getLocale()
-    {
-        return !empty($this->getParameter("locale")) ? $this->getParameter("locale") : Locale::TR;
-    }
 
     private function getConversationId()
     {

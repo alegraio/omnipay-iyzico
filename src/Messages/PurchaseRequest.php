@@ -166,10 +166,6 @@ class PurchaseRequest extends AbstractRequest
         return hash_hmac("sha1", $data, $this->getSecretKey());
     }
 
-    private function getLocale()
-    {
-        return !empty($this->getParameter("locale")) ? $this->getParameter("locale") : Locale::TR;
-    }
 
     private function getConversationId()
     {
