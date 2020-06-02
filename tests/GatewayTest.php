@@ -10,6 +10,8 @@ use Iyzipay\Model\PaymentGroup;
 use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
 use Omnipay\Iyzico\IyzicoItemBag;
+use Omnipay\Iyzico\Messages\Purchase3dResponse;
+use Omnipay\Iyzico\Messages\PurchaseResponse;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -114,8 +116,9 @@ class GatewayTest extends GatewayTestCase
 
         ];
 
+        /** @var PurchaseResponse $response */
         $response = $this->gateway->purchase($this->parameters)->send();
-        var_dump($response);
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testCompletePurchase()
@@ -200,8 +203,9 @@ class GatewayTest extends GatewayTestCase
 
         ];
 
+        /** @var Purchase3dResponse $response */
         $response = $this->gateway->purchase($this->parameters)->send();
-        var_dump($response);
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testPurchaseInfo()
