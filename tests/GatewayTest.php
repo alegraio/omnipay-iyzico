@@ -10,6 +10,8 @@ use Iyzipay\Model\PaymentGroup;
 use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
 use Omnipay\Iyzico\IyzicoItemBag;
+use Omnipay\Iyzico\Messages\CardListResponse;
+use Omnipay\Iyzico\Messages\InstallmentInfoResponse;
 use Omnipay\Iyzico\Messages\Purchase3dResponse;
 use Omnipay\Iyzico\Messages\PurchaseResponse;
 
@@ -225,8 +227,9 @@ class GatewayTest extends GatewayTestCase
             'cardUserKey' => 'card user key'
         ];
 
+        /** @var CardListResponse $response */
         $response = $this->gateway->getCardList($this->parameters)->send();
-        var_dump($response);
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testCancelPurchase()
@@ -242,7 +245,8 @@ class GatewayTest extends GatewayTestCase
             'price' => 100,
         ];
 
+        /** @var InstallmentInfoResponse $response */
         $response = $this->gateway->installmentInfo($this->parameters)->send();
-        var_dump($response);
+        $this->assertTrue($response->isSuccessful());
     }
 }
