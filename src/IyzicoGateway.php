@@ -44,6 +44,7 @@ class IyzicoGateway extends AbstractGateway
     {
         return $this->getParameter("baseUrl");
     }
+
     public function setApiKey($apiKey)
     {
         return $this->setParameter('apiKey', $apiKey);
@@ -62,7 +63,8 @@ class IyzicoGateway extends AbstractGateway
     /**
      * @inheritDoc
      */
-    public function authorize(array $parameters = array()){
+    public function authorize(array $parameters = array())
+    {
         return $this->createRequest('\Omnipay\Iyzico\Messages\AuthorizeRequest', $parameters);
     }
 
@@ -87,7 +89,7 @@ class IyzicoGateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest
+     * @return AbstractRequest|RequestInterface
      */
     public function purchaseInfo(array $parameters = array())
     {
@@ -154,7 +156,4 @@ class IyzicoGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\InstallmentInfoRequest', $parameters);
     }
-
-
-
 }

@@ -4,6 +4,7 @@ namespace Omnipay\Tests;
 
 use Iyzipay\Model\Locale;
 use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Messages\PurchaseInfoResponse;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -53,8 +54,15 @@ class GatewayTest extends GatewayTestCase
 
     public function testPurchaseInfo()
     {
+        $this->parameters = [
+            'paymentId' => '12126832'
+        ];
 
+        /** @var PurchaseInfoResponse $response */
+        $response = $this->gateway->purchaseInfo($this->parameters)->send();
+        $this->assertTrue($response->isSuccessful());
     }
+
 
     public function testAddCard()
     {

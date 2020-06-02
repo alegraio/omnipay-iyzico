@@ -4,39 +4,72 @@
 namespace Omnipay\Iyzico\Messages;
 
 
+use Iyzipay\IyzipayResource;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
 abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse implements RedirectResponseInterface
 {
+    /** @var IyzipayResource */
+    private $response;
 
-    public function __construct(RequestInterface $request, $data)
+    public function __construct(RequestInterface $request, IyzipayResource $data)
     {
         parent::__construct($request, $data);
-        $this->setData($data);
+        $this->setResponse($data);
     }
 
-
     /**
-     * @inheritDoc
+     * @return bool
      */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
-        if ('success' !== $this->data['status']) {
+        if ('success' !== $this->response->getStatus()) {
             return false;
         }
 
         return true;
-
     }
 
     /**
-     * @param mixed $data
      * @return mixed
      */
-    public function setData($data)
+    public function getData()
     {
-        return $this->data = $data;
+        return $this->data = $this->response->getRawResult();
+    }
+
+    /**
+     * @return IyzipayResource
+     */
+    public function getResponse(): IyzipayResource
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param IyzipayResource $response
+     */
+    public function setResponse(IyzipayResource $response)
+    {
+        $this->response = $response;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMessage(): string
+    {
+        if (!empty($this->response->getErrorMessage())) {
+            return $this->response->getErrorCode() . " : " . $this->response->getErrorMessage();
+        }
+
+        return null;
+    }
+
+    public function getRedirectMethod()
+    {
+        return 'POST';
     }
 
 }
