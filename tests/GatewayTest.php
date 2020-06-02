@@ -45,21 +45,30 @@ class GatewayTest extends GatewayTestCase
     public function testPurchase()
     {
         $paymentCard = new CreditCard();
-        $paymentCard->setName("John");
-        $paymentCard->setLastName("Doe");
         $paymentCard->setNumber("5170410000000004");
         $paymentCard->setExpiryMonth("12");
         $paymentCard->setExpiryYear("2030");
         $paymentCard->setCvv("123");
         $paymentCard->setEmail("mail@mail.com");
-        $paymentCard = [
-            'cardHolderName' => $paymentCard->getName() . " " . $paymentCard->getLastName(),
-            'cardNumber' => $paymentCard->getNumber(),
-            'expireMonth' => $paymentCard->getExpiryMonth(),
-            'expireYear' => $paymentCard->getExpiryYear(),
-            'cvc' => $paymentCard->getCvv(),
-            'registerCard' => "0" // Optional
-        ];
+        $paymentCard->setPhone("(555) 555-555");
+        $paymentCard->setCity("Istanbul");
+        $paymentCard->setCountry("Turkey");
+        $paymentCard->setPostcode("34732");
+
+        // Shipping
+        $paymentCard->setShippingName("John Doe");
+        $paymentCard->setShippingCity("Istanbul");
+        $paymentCard->setShippingCountry("Turkey");
+        $paymentCard->setShippingAddress1("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
+        $paymentCard->setShippingPostcode("34732");
+
+        // Billing
+        $paymentCard->setBillingName("John Doe");
+        $paymentCard->setBillingCity("Istanbul");
+        $paymentCard->setBillingCountry("Turkey");
+        $paymentCard->setBillingAddress1("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
+        $paymentCard->setBillingPostcode("34732");
+
 
         $items = [
             [
@@ -84,34 +93,6 @@ class GatewayTest extends GatewayTestCase
         foreach ($items as $item) {
             $basketItems->add($item);
         }
-        $buyer = [
-            'id' => "123123123",
-            'name' => "John",
-            'surName' => "Doe",
-            'gsmNumber' => "(555) 555-555", // Optional
-            'email' => "mail@mail.com",
-            'identityNumber' => "11111111111",
-            'lastLoginDate' => "2020-05-05 12:43:35", // Optional
-            'registrationDate' => "2020-04-21 15:12:09", // Optional
-            'registrationAddress' => "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
-            'ip' => "85.34.78.112",
-            'city' => "Istanbul",
-            'country' => "Turkey",
-            'zipCode' => "34732" // Optional
-        ];
-        $shippingAddress = [
-            'contactName' => "John Doe",
-            'city' => "Istanbul",
-            'country' => "Turkey",
-            'address' => "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1"
-        ];
-
-        $billingAddress = [
-            'contactName' => "John Doe",
-            'city' => "Istanbul",
-            'country' => "Turkey",
-            'address' => "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1"
-        ];
 
         $this->parameters = [
             'locale' => Locale::TR,
@@ -124,11 +105,12 @@ class GatewayTest extends GatewayTestCase
             'basketId' => "123123123", // Optional -> Order Number Or Basket Id  etc. may be assigned
             'paymentChannel' => PaymentChannel::WEB, // Optional
             'paymentGroup' => PaymentGroup::PRODUCT, // Optional
-            'paymentCard' => $paymentCard,
-            'buyer' => $buyer,
-            'shippingAddress' => $shippingAddress,
-            'billingAddress' => $billingAddress,
-            'basketItems' => $basketItems
+            'card' => $paymentCard,
+            'registerCard' => "0", // Optional
+            'buyerId' => "123123123",
+            'identityNumber' => "11111111111",
+            'clientIp' => '176.157.78.13',
+            'items' => $basketItems
 
         ];
 
