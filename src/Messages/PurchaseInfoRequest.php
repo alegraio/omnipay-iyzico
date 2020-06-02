@@ -1,22 +1,42 @@
 <?php
+
 namespace Omnipay\Iyzico\Messages;
 
-class PurchaseInfoRequest extends \Omnipay\Common\Message\AbstractRequest
-{
+use Omnipay\Common\Exception\InvalidResponseException;
+use Iyzipay\Model\Payment;
+use Iyzipay\Request\RetrievePaymentRequest;
+use Omnipay\Common\Message\ResponseInterface;
 
+class PurchaseInfoRequest extends AbstractRequest
+{
     /**
-     * @inheritDoc
+     * @return RetrievePaymentRequest
      */
-    public function getData()
+    public function getData(): RetrievePaymentRequest
     {
-        // TODO: Implement getData() method.
+        $request = new RetrievePaymentRequest();
+        $request->setLocale($this->getLocale());
+        $request->setPaymentId($this->getPaymentId());
+
+        return $request;
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $data
+     * @return ResponseInterface|PurchaseInfoResponse
+     * @throws InvalidResponseException
      */
-    public function sendData($data)
+    public function sendData($data): PurchaseInfoResponse
     {
-        // TODO: Implement sendData() method.
+        try {
+            $options = $this->getOptions();
+
+            return new PurchaseInfoResponse($this, Payment::retrieve($data, $options));
+        } catch (\Exception $e) {
+            throw new InvalidResponseException(
+                'Error communicating with payment gateway: ' . $e->getMessage(),
+                $e->getCode()
+            );
+        }
     }
 }

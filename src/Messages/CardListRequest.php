@@ -1,4 +1,5 @@
 <?php
+
 namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\CardList;
@@ -7,17 +8,6 @@ use Iyzipay\Request\RetrieveCardListRequest;
 
 class CardListRequest extends AbstractRequest
 {
-
-    public function setLocale($locale)
-    {
-        $this->setParameter("locale", $locale);
-    }
-
-    public function getLocale()
-    {
-        return !empty($this->getParameter("locale")) ? $this->getParameter("locale") : Locale::TR;
-    }
-
     public function getCardUserKey()
     {
         return $this->getParameter("cardUserKey");

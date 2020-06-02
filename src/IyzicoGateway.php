@@ -111,7 +111,7 @@ class IyzicoGateway extends AbstractGateway
 
     /**
      * @param array $parameters
-     * @return AbstractRequest
+     * @return AbstractRequest|RequestInterface
      */
     public function purchaseInfo(array $parameters = array())
     {

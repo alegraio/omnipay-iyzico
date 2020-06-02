@@ -9,6 +9,7 @@ use Iyzipay\Model\PaymentChannel;
 use Iyzipay\Model\PaymentGroup;
 use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Messages\PurchaseInfoResponse;
 use Omnipay\Iyzico\IyzicoItemBag;
 use Omnipay\Iyzico\Messages\CardListResponse;
 use Omnipay\Iyzico\Messages\InstallmentInfoResponse;
@@ -212,8 +213,15 @@ class GatewayTest extends GatewayTestCase
 
     public function testPurchaseInfo()
     {
+        $this->parameters = [
+            'paymentId' => '12126832'
+        ];
 
+        /** @var PurchaseInfoResponse $response */
+        $response = $this->gateway->purchaseInfo($this->parameters)->send();
+        $this->assertTrue($response->isSuccessful());
     }
+
 
     public function testAddCard()
     {
