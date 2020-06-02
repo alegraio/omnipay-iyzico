@@ -9,12 +9,14 @@ use Iyzipay\Model\PaymentChannel;
 use Iyzipay\Model\PaymentGroup;
 use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Messages\CancelPurchaseResponse;
 use Omnipay\Iyzico\Messages\PurchaseInfoResponse;
 use Omnipay\Iyzico\IyzicoItemBag;
 use Omnipay\Iyzico\Messages\CardListResponse;
 use Omnipay\Iyzico\Messages\InstallmentInfoResponse;
 use Omnipay\Iyzico\Messages\Purchase3dResponse;
 use Omnipay\Iyzico\Messages\PurchaseResponse;
+use Omnipay\Iyzico\Messages\RefundResponse;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -39,7 +41,15 @@ class GatewayTest extends GatewayTestCase
 
     public function testRefund()
     {
+        $this->parameters = [
+            'paymentTransactionId' => '12823076',
+            'clientIp' => '11.11.11.111',
+            'amount' => '10'
+        ];
 
+        /** @var RefundResponse $response */
+        $response = $this->gateway->refund($this->parameters)->send();
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testAuthorize()
@@ -188,17 +198,23 @@ class GatewayTest extends GatewayTestCase
 
         $this->parameters = [
             'locale' => Locale::TR,
-            'force3ds' => '1', // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
-            'returnUrl' => 'www.callback.com', // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
+            'force3ds' => '1',
+            // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
+            'returnUrl' => 'www.callback.com',
+            // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
             'price' => "1",
             'paidPrice' => "1.2",
             'currency' => Currency::TL,
             'installment' => 1,
-            'basketId' => "1231231567", // Optional -> Order Number Or Basket Id  etc. may be assigned
-            'paymentChannel' => PaymentChannel::WEB, // Optional
-            'paymentGroup' => PaymentGroup::PRODUCT, // Optional
+            'basketId' => "1231231567",
+            // Optional -> Order Number Or Basket Id  etc. may be assigned
+            'paymentChannel' => PaymentChannel::WEB,
+            // Optional
+            'paymentGroup' => PaymentGroup::PRODUCT,
+            // Optional
             'card' => $paymentCard,
-            'registerCard' => "0", // Optional
+            'registerCard' => "0",
+            // Optional
             'buyerId' => "123123123",
             'identityNumber' => "11111111111",
             'clientIp' => '176.157.78.56',
@@ -242,7 +258,14 @@ class GatewayTest extends GatewayTestCase
 
     public function testCancelPurchase()
     {
+        $this->parameters = [
+            'paymentId' => '12126832',
+            'clientIp' => '11.11.11.111'
+        ];
 
+        /** @var CancelPurchaseResponse $response */
+        $response = $this->gateway->cancelPurchase($this->parameters)->send();
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testInstallmentInfo()
