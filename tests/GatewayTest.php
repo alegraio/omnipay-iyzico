@@ -9,6 +9,7 @@ use Iyzipay\Model\PaymentChannel;
 use Iyzipay\Model\PaymentGroup;
 use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Messages\CompletePurchaseResponse;
 use Omnipay\Iyzico\Messages\PurchaseInfoResponse;
 use Omnipay\Iyzico\IyzicoItemBag;
 use Omnipay\Iyzico\Messages\CardListResponse;
@@ -23,12 +24,17 @@ class GatewayTest extends GatewayTestCase
      */
     private $parameters;
 
+    /**
+     * @var IyzicoGateway
+     */
+    protected $gateway;
+
     public function setUp()
     {
         /** @var IyzicoGateway gateway */
         $this->gateway = new IyzicoGateway(null, $this->getHttpRequest());
-        $this->gateway->setApiKey('sandbox-xxxxx');
-        $this->gateway->setSecretKey('sandbox-xxxxx');
+        $this->gateway->setApiKey('sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX');
+        $this->gateway->setSecretKey('sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ');
         $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
     }
 
@@ -126,7 +132,16 @@ class GatewayTest extends GatewayTestCase
 
     public function testCompletePurchase()
     {
+        $this->parameters = [
+            'locale' => Locale::TR, // Optional
+            'paymentId' => '12126832',
+            // 'conversationId' => '12341234', Optional
+            // 'conversationData' => 'testdata' Optional
+        ];
 
+        /** @var CompletePurchaseResponse $response */
+        $response = $this->gateway->completePurchase($this->parameters)->send();
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testCreateCard()
