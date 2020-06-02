@@ -23,4 +23,11 @@ class IyzicoItemBag extends ItemBag
         }
     }
 
+    /**
+     * @return ItemInterface|array
+     */
+    public function getItems(){
+        return $this->items;
+    }
+
 }
