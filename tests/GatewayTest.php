@@ -9,6 +9,7 @@ use Iyzipay\Model\PaymentChannel;
 use Iyzipay\Model\PaymentGroup;
 use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Messages\CancelPurchaseResponse;
 use Omnipay\Iyzico\Messages\CompletePurchaseResponse;
 use Omnipay\Iyzico\Messages\PurchaseInfoResponse;
 use Omnipay\Iyzico\IyzicoItemBag;
@@ -16,6 +17,7 @@ use Omnipay\Iyzico\Messages\CardListResponse;
 use Omnipay\Iyzico\Messages\InstallmentInfoResponse;
 use Omnipay\Iyzico\Messages\Purchase3dResponse;
 use Omnipay\Iyzico\Messages\PurchaseResponse;
+use Omnipay\Iyzico\Messages\RefundResponse;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -33,8 +35,8 @@ class GatewayTest extends GatewayTestCase
     {
         /** @var IyzicoGateway gateway */
         $this->gateway = new IyzicoGateway(null, $this->getHttpRequest());
-        $this->gateway->setApiKey('sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX');
-        $this->gateway->setSecretKey('sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ');
+        $this->gateway->setApiKey('sandbox-xxxxx');
+        $this->gateway->setSecretKey('sandbox-xxxxx');
         $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
     }
 
@@ -45,7 +47,15 @@ class GatewayTest extends GatewayTestCase
 
     public function testRefund()
     {
+        $this->parameters = [
+            'paymentTransactionId' => '12823076',
+            'clientIp' => '11.11.11.111',
+            'amount' => '10'
+        ];
 
+        /** @var RefundResponse $response */
+        $response = $this->gateway->refund($this->parameters)->send();
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testAuthorize()
@@ -257,7 +267,14 @@ class GatewayTest extends GatewayTestCase
 
     public function testCancelPurchase()
     {
+        $this->parameters = [
+            'paymentId' => '12126832',
+            'clientIp' => '11.11.11.111'
+        ];
 
+        /** @var CancelPurchaseResponse $response */
+        $response = $this->gateway->cancelPurchase($this->parameters)->send();
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testInstallmentInfo()

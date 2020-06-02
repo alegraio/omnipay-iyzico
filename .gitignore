@@ -6,3 +6,5 @@ phpunit.xml
 /dirlist.*
 /documents/
 /.idea/
+src/.DS_Store
+.DS_Store
