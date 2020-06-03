@@ -92,5 +92,13 @@ class Purchase3dResponse extends AbstractResponse
         return $this->domDocument->getElementById($this->formId)->getAttribute("action");
     }
 
+    /**
+     * @return string
+     */
+    public function getThreeDHtmlContent(): string
+    {
+        return $this->threeDHtmlContent;
+    }
+
 
 }
