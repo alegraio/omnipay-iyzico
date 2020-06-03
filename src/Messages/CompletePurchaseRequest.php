@@ -4,7 +4,8 @@
 namespace Omnipay\Iyzico\Messages;
 
 
-use Omnipay\Common\Message\ResponseInterface;
+use Iyzipay\Model\ThreedsPayment;
+use Iyzipay\Request\CreateThreedsPaymentRequest;
 
 class CompletePurchaseRequest extends AbstractRequest
 {
@@ -14,7 +15,14 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        // TODO: Implement getData() method.
+        $request = new CreateThreedsPaymentRequest();
+        $request->setLocale($this->getLocale());
+        $request->setPaymentId($this->getPaymentId());
+
+        ($this->getConversationId() !== null) ? $request->setConversationId($this->getConversationId()) : null; // ConversationId is optional
+        ($this->getConversationData() !== null) ? $request->setConversationData($this->getConversationData()) : null; // ConversationData is optional
+
+        return $request;
     }
 
     /**
@@ -22,6 +30,28 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        // TODO: Implement sendData() method.
+        # make request
+        $options = $this->getOptions();
+        return new CompletePurchaseResponse($this, ThreedsPayment::create($data, $options));
+    }
+
+    public function getConversationId()
+    {
+        return $this->getParameter("conversationId");
+    }
+
+    public function getConversationData()
+    {
+        return $this->getParameter("conversationData");
+    }
+
+    public function setConversationId($conversationId)
+    {
+        $this->setParameter("conversationId", $conversationId);
+    }
+
+    public function setConversationData($conversationData)
+    {
+        $this->setParameter("conversationData", $conversationData);
     }
 }
