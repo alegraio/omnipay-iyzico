@@ -1,22 +1,69 @@
 <?php
+
 namespace Omnipay\Iyzico\Messages;
 
-class RefundRequest extends \Omnipay\Common\Message\AbstractRequest
+use Iyzipay\Model\Refund;
+use Iyzipay\Request\CreateRefundRequest;
+use Omnipay\Common\Exception\InvalidResponseException;
+
+class RefundRequest extends AbstractRequest
 {
 
     /**
-     * @inheritDoc
+     * Prepare payment refund data.
+     *
+     * @return CreateRefundRequest
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
-    public function getData()
+    public function getData(): CreateRefundRequest
     {
-        // TODO: Implement getData() method.
+        $request = new CreateRefundRequest();
+        $request->setLocale($this->getLocale());
+        $request->setPaymentTransactionId($this->getPaymentTransactionId());
+        $request->setIp($this->getClientIp());
+        $request->setPrice($this->getAmount());
+
+        return $request;
     }
 
     /**
-     * @inheritDoc
+     * Send request for payment refund process.
+     *
+     * @param mixed $data
+     * @return RefundResponse
+     * @throws InvalidResponseException
      */
-    public function sendData($data)
+    public function sendData($data): RefundResponse
     {
-        // TODO: Implement sendData() method.
+        try {
+            $options = $this->getOptions();
+
+            return new RefundResponse($this, Refund::create($data, $options));
+        } catch (\Exception $e) {
+            throw new InvalidResponseException(
+                'Error communicating with payment gateway: ' . $e->getMessage(),
+                $e->getCode()
+            );
+        }
+    }
+
+    /**
+     * Set payment transaction id for item.
+     *
+     * @param string $paymentTransactionId
+     */
+    public function setPaymentTransactionId(string $paymentTransactionId)
+    {
+        $this->setParameter("paymentTransactionId", $paymentTransactionId);
+    }
+
+    /**
+     * Get payment transaction id for item.
+     *
+     * @return string
+     */
+    public function getPaymentTransactionId(): string
+    {
+        return $this->getParameter("paymentTransactionId");
     }
 }

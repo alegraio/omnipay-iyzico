@@ -109,11 +109,6 @@ class Purchase3dRequest extends AbstractRequest
         return new PurchaseResponse($this, ThreedsInitialize::create($data, $options));
     }
 
-    public function setLocale($locale)
-    {
-        $this->setParameter("locale", $locale);
-    }
-
     public function setPrice($locale)
     {
         $this->setParameter("price", $locale);
