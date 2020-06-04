@@ -12,7 +12,8 @@
   "require": {
     "omnipay/common": "^3",
     "iyzico/iyzipay-php": "~2.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-dom": "*"
   },
   "require-dev": {
     "omnipay/tests": "^3"

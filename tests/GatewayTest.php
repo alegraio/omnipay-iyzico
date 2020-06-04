@@ -11,7 +11,6 @@ use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
 use Omnipay\Iyzico\Messages\CancelPurchaseResponse;
 use Omnipay\Iyzico\Messages\CompletePurchaseResponse;
-use Omnipay\Iyzico\Messages\CancelPurchaseResponse;
 use Omnipay\Iyzico\Messages\PurchaseInfoResponse;
 use Omnipay\Iyzico\IyzicoItemBag;
 use Omnipay\Iyzico\Messages\CardListResponse;
@@ -36,8 +35,8 @@ class GatewayTest extends GatewayTestCase
     {
         /** @var IyzicoGateway gateway */
         $this->gateway = new IyzicoGateway(null, $this->getHttpRequest());
-        $this->gateway->setApiKey('sandbox-xxxxx');
-        $this->gateway->setSecretKey('sandbox-xxxxx');
+        $this->gateway->setApiKey('sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX');
+        $this->gateway->setSecretKey('sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ');
         $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
     }
 
@@ -240,6 +239,9 @@ class GatewayTest extends GatewayTestCase
 
         /** @var Purchase3dResponse $response */
         $response = $this->gateway->purchase($this->parameters)->send();
+        // $redirectData = $response->getRedirectData();
+        // $redirectUrl = $response->getRedirectUrl();
+        // $threeDHtmlContent = $response->getThreeDHtmlContent();
         $this->assertTrue($response->isSuccessful());
     }
 
@@ -295,5 +297,29 @@ class GatewayTest extends GatewayTestCase
         /** @var InstallmentInfoResponse $response */
         $response = $this->gateway->installmentInfo($this->parameters)->send();
         $this->assertTrue($response->isSuccessful());
+    }
+
+    public function testCallBackUrl(){
+        $callBackUrlPostData = [
+            'status' => "success",
+            'paymentId' => "12130103",
+            'conversationData' => null, // Should be send to Complete Purchase Request when it is not empty or not null
+            'conversationId' => "83ec2b9686168e1747beb624ef607a264a23437b",
+            'mdStatus' => 1
+        ];
+        if ($callBackUrlPostData["status"] === "success" && $callBackUrlPostData["mdStatus"] === 1) { // Status must be 'success' and also 'mdStatus' must be 1 to make complete Purchase Request
+            $this->parameters = [
+                'locale' => Locale::TR, // Optional
+                'paymentId' => $callBackUrlPostData["paymentId"]
+            ];
+
+            if (!empty($callBackUrlPostData["conversationData"])) {
+                $this->parameters["conversationData"] = $callBackUrlPostData["conversationData"];
+            }
+
+            /** @var CompletePurchaseResponse $response */
+            $response = $this->gateway->completePurchase($this->parameters)->send();
+            $this->assertTrue($response->isSuccessful());
+        }
     }
 }

@@ -106,7 +106,7 @@ class Purchase3dRequest extends AbstractRequest
     {
         # make request
         $options = $this->getOptions();
-        return new PurchaseResponse($this, ThreedsInitialize::create($data, $options));
+        return new Purchase3dResponse($this, ThreedsInitialize::create($data, $options));
     }
 
     public function setPrice($locale)
