@@ -35,21 +35,21 @@ class CompletePurchaseRequest extends AbstractRequest
 
     public function getConversationId()
     {
-        return $this->getParameter("conversationId");
+        return $this->getParameter('conversationId');
     }
 
     public function getConversationData()
     {
-        return $this->getParameter("conversationData");
+        return $this->getParameter('conversationData');
     }
 
     public function setConversationId($conversationId): void
     {
-        $this->setParameter("conversationId", $conversationId);
+        $this->setParameter('conversationId', $conversationId);
     }
 
     public function setConversationData($conversationData): void
     {
-        $this->setParameter("conversationData", $conversationData);
+        $this->setParameter('conversationData', $conversationData);
     }
 }

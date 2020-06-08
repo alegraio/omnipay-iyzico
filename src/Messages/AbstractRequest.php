@@ -54,7 +54,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     public function getBaseUrl()
     {
-        return $this->getParameter("baseUrl");
+        return $this->getParameter('baseUrl');
     }
 
     public function setBaseUrl($baseUrl): AbstractRequest
@@ -69,7 +69,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getPaymentId(): string
     {
-        return $this->getParameter("paymentId");
+        return $this->getParameter('paymentId');
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function setPaymentId(string $paymentId): void
     {
-        $this->setParameter("paymentId", $paymentId);
+        $this->setParameter('paymentId', $paymentId);
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getLocale(): string
     {
-        return !empty($this->getParameter("locale")) ? $this->getParameter("locale") : Locale::TR;
+        return !empty($this->getParameter('locale')) ? $this->getParameter('locale') : Locale::TR;
     }
 
     /**
@@ -95,6 +95,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function setLocale(string $locale): void
     {
-        $this->setParameter("locale", $locale);
+        $this->setParameter('locale', $locale);
     }
 }

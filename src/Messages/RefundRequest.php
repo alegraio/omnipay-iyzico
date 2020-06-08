@@ -2,8 +2,10 @@
 
 namespace Omnipay\Iyzico\Messages;
 
+use Exception;
 use Iyzipay\Model\Refund;
 use Iyzipay\Request\CreateRefundRequest;
+use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Exception\InvalidResponseException;
 
 class RefundRequest extends AbstractRequest
@@ -13,7 +15,7 @@ class RefundRequest extends AbstractRequest
      * Prepare payment refund data.
      *
      * @return CreateRefundRequest
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     * @throws InvalidRequestException
      */
     public function getData(): CreateRefundRequest
     {
@@ -39,7 +41,7 @@ class RefundRequest extends AbstractRequest
             $options = $this->getOptions();
 
             return new RefundResponse($this, Refund::create($data, $options));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new InvalidResponseException(
                 'Error communicating with payment gateway: ' . $e->getMessage(),
                 $e->getCode()
@@ -54,7 +56,7 @@ class RefundRequest extends AbstractRequest
      */
     public function setPaymentTransactionId(string $paymentTransactionId): void
     {
-        $this->setParameter("paymentTransactionId", $paymentTransactionId);
+        $this->setParameter('paymentTransactionId', $paymentTransactionId);
     }
 
     /**
@@ -64,6 +66,6 @@ class RefundRequest extends AbstractRequest
      */
     public function getPaymentTransactionId(): string
     {
-        return $this->getParameter("paymentTransactionId");
+        return $this->getParameter('paymentTransactionId');
     }
 }

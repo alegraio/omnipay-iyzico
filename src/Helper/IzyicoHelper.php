@@ -1,4 +1,5 @@
 <?php
+namespace Omnipay\Iyzico\Helper;
 
 class IzyicoHelper
 {

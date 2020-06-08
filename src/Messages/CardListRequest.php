@@ -4,29 +4,30 @@ namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\CardList;
 use Iyzipay\Request\RetrieveCardListRequest;
+use Omnipay\Iyzico\Helper\IzyicoHelper;
 
 class CardListRequest extends AbstractRequest
 {
     public function getCardUserKey()
     {
-        return $this->getParameter("cardUserKey");
+        return $this->getParameter('cardUserKey');
     }
 
     public function setCardUserKey($cardUserKey): void
     {
-        $this->setParameter("cardUserKey", $cardUserKey);
+        $this->setParameter('cardUserKey', $cardUserKey);
     }
 
     public function buildTransactionID()
     {
         $data = array(
-            "locale" => $this->getLocale(),
-            "cardUserKey" => $this->getCardUserKey(),
-            "id" => \IzyicoHelper::createUniqueID(),
-            "timestamp" => date("YmdHis")
+            'locale' => $this->getLocale(),
+            'cardUserKey' => $this->getCardUserKey(),
+            'id' => IzyicoHelper::createUniqueID(),
+            'timestamp' => date('YmdHis')
         );
         $data = serialize($data);
-        return hash_hmac("sha1", $data, $this->getSecretKey());
+        return hash_hmac('sha1', $data, $this->getSecretKey());
     }
 
     /**

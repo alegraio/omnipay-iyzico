@@ -2,6 +2,7 @@
 
 namespace Omnipay\Tests;
 
+use Exception;
 use Iyzipay\Model\BasketItemType;
 use Iyzipay\Model\Currency;
 use Iyzipay\Model\Locale;
@@ -40,12 +41,12 @@ class GatewayTest extends GatewayTestCase
         $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
     }
 
-    public function testDeleteCard()
+    public function testDeleteCard(): void
     {
 
     }
 
-    public function testRefund()
+    public function testRefund(): void
     {
         $this->parameters = [
             'paymentTransactionId' => '12823076',
@@ -58,37 +59,40 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testAuthorize()
+    public function testAuthorize(): void
     {
 
     }
 
-    public function testPurchase()
+    /**
+     * @throws Exception
+     */
+    public function testPurchase(): void
     {
         $paymentCard = new CreditCard();
-        $paymentCard->setNumber("5170410000000004");
-        $paymentCard->setExpiryMonth("12");
-        $paymentCard->setExpiryYear("2030");
-        $paymentCard->setCvv("123");
-        $paymentCard->setEmail("mail@mail.com");
-        $paymentCard->setPhone("(555) 555-555");
-        $paymentCard->setCity("Istanbul");
-        $paymentCard->setCountry("Turkey");
-        $paymentCard->setPostcode("34732");
+        $paymentCard->setNumber('5170410000000004');
+        $paymentCard->setExpiryMonth('12');
+        $paymentCard->setExpiryYear('2030');
+        $paymentCard->setCvv('123');
+        $paymentCard->setEmail('mail@mail.com');
+        $paymentCard->setPhone('(555) 555-555');
+        $paymentCard->setCity('Istanbul');
+        $paymentCard->setCountry('Turkey');
+        $paymentCard->setPostcode('34732');
 
         // Shipping
-        $paymentCard->setShippingName("John Doe");
-        $paymentCard->setShippingCity("Istanbul");
-        $paymentCard->setShippingCountry("Turkey");
-        $paymentCard->setShippingAddress1("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
-        $paymentCard->setShippingPostcode("34732");
+        $paymentCard->setShippingName('John Doe');
+        $paymentCard->setShippingCity('Istanbul');
+        $paymentCard->setShippingCountry('Turkey');
+        $paymentCard->setShippingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
+        $paymentCard->setShippingPostcode('34732');
 
         // Billing
-        $paymentCard->setBillingName("John Doe");
-        $paymentCard->setBillingCity("Istanbul");
-        $paymentCard->setBillingCountry("Turkey");
-        $paymentCard->setBillingAddress1("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
-        $paymentCard->setBillingPostcode("34732");
+        $paymentCard->setBillingName('John Doe');
+        $paymentCard->setBillingCity('Istanbul');
+        $paymentCard->setBillingCountry('Turkey');
+        $paymentCard->setBillingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
+        $paymentCard->setBillingPostcode('34732');
 
 
         $items = [
@@ -96,7 +100,7 @@ class GatewayTest extends GatewayTestCase
                 'id' => 'product1',
                 'name' => 'The Product 1',
                 'category1' => 'Main Category',
-                'category2' => "Sub Category", // Optional
+                'category2' => 'Sub Category', // Optional
                 'itemType' => BasketItemType::PHYSICAL,
                 'price' => '0.3'
             ],
@@ -104,7 +108,7 @@ class GatewayTest extends GatewayTestCase
                 'id' => 'product2',
                 'name' => 'The Product 2',
                 'category1' => 'Main Category',
-                'category2' => "Sub Category", // Optional
+                'category2' => 'Sub Category', // Optional
                 'itemType' => BasketItemType::VIRTUAL,
                 'price' => '0.7'
             ]
@@ -117,30 +121,40 @@ class GatewayTest extends GatewayTestCase
 
         $this->parameters = [
             'locale' => Locale::TR,
-            'force3ds' => '0', // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
-            'callbackUrl' => 'www.callback.com', // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
-            'price' => "1",
-            'paidPrice' => "1.2",
+            'force3ds' => '0',
+            // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
+            'callbackUrl' => 'www.callback.com',
+            // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
+            'price' => '1',
+            'paidPrice' => '1.2',
             'currency' => Currency::TL,
             'installment' => 1,
-            'basketId' => "123123123", // Optional -> Order Number Or Basket Id  etc. may be assigned
-            'paymentChannel' => PaymentChannel::WEB, // Optional
-            'paymentGroup' => PaymentGroup::PRODUCT, // Optional
+            'basketId' => '123123123',
+            // Optional -> Order Number Or Basket Id  etc. may be assigned
+            'paymentChannel' => PaymentChannel::WEB,
+            // Optional
+            'paymentGroup' => PaymentGroup::PRODUCT,
+            // Optional
             'card' => $paymentCard,
-            'registerCard' => "0", // Optional
-            'buyerId' => "123123123",
-            'identityNumber' => "11111111111",
+            'registerCard' => '0',
+            // Optional
+            'buyerId' => '123123123',
+            'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.13',
             'items' => $basketItems
 
         ];
 
         /** @var PurchaseResponse $response */
-        $response = $this->gateway->purchase($this->parameters)->send();
+        try {
+            $response = $this->gateway->purchase($this->parameters)->send();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testCompletePurchase()
+    public function testCompletePurchase(): void
     {
         $this->parameters = [
             'locale' => Locale::TR, // Optional
@@ -154,37 +168,40 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testCreateCard()
+    public function testCreateCard(): void
     {
 
     }
 
-    public function testPurchase3d()
+    /**
+     * @throws Exception
+     */
+    public function testPurchase3d(): void
     {
         $paymentCard = new CreditCard();
-        $paymentCard->setNumber("5170410000000004");
-        $paymentCard->setExpiryMonth("12");
-        $paymentCard->setExpiryYear("2030");
-        $paymentCard->setCvv("123");
-        $paymentCard->setEmail("mail@mail.com");
-        $paymentCard->setPhone("(555) 555-555");
-        $paymentCard->setCity("Istanbul");
-        $paymentCard->setCountry("Turkey");
-        $paymentCard->setPostcode("34732");
+        $paymentCard->setNumber('5170410000000004');
+        $paymentCard->setExpiryMonth('12');
+        $paymentCard->setExpiryYear('2030');
+        $paymentCard->setCvv('123');
+        $paymentCard->setEmail('mail@mail.com');
+        $paymentCard->setPhone('(555) 555-555');
+        $paymentCard->setCity('Istanbul');
+        $paymentCard->setCountry('Turkey');
+        $paymentCard->setPostcode('34732');
 
         // Shipping
-        $paymentCard->setShippingName("John Doe");
-        $paymentCard->setShippingCity("Istanbul");
-        $paymentCard->setShippingCountry("Turkey");
-        $paymentCard->setShippingAddress1("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
-        $paymentCard->setShippingPostcode("34732");
+        $paymentCard->setShippingName('John Doe');
+        $paymentCard->setShippingCity('Istanbul');
+        $paymentCard->setShippingCountry('Turkey');
+        $paymentCard->setShippingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
+        $paymentCard->setShippingPostcode('34732');
 
         // Billing
-        $paymentCard->setBillingName("John Doe");
-        $paymentCard->setBillingCity("Istanbul");
-        $paymentCard->setBillingCountry("Turkey");
-        $paymentCard->setBillingAddress1("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
-        $paymentCard->setBillingPostcode("34732");
+        $paymentCard->setBillingName('John Doe');
+        $paymentCard->setBillingCity('Istanbul');
+        $paymentCard->setBillingCountry('Turkey');
+        $paymentCard->setBillingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
+        $paymentCard->setBillingPostcode('34732');
 
 
         $items = [
@@ -192,7 +209,7 @@ class GatewayTest extends GatewayTestCase
                 'id' => 'product1',
                 'name' => 'The Product 1',
                 'category1' => 'Main Category',
-                'category2' => "Sub Category", // Optional
+                'category2' => 'Sub Category', // Optional
                 'itemType' => BasketItemType::PHYSICAL,
                 'price' => '0.3'
             ],
@@ -200,7 +217,7 @@ class GatewayTest extends GatewayTestCase
                 'id' => 'product2',
                 'name' => 'The Product 2',
                 'category1' => 'Main Category',
-                'category2' => "Sub Category", // Optional
+                'category2' => 'Sub Category', // Optional
                 'itemType' => BasketItemType::VIRTUAL,
                 'price' => '0.7'
             ]
@@ -217,35 +234,39 @@ class GatewayTest extends GatewayTestCase
             // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
             'returnUrl' => 'www.callback.com',
             // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
-            'price' => "1",
-            'paidPrice' => "1.2",
+            'price' => '1',
+            'paidPrice' => '1.2',
             'currency' => Currency::TL,
             'installment' => 1,
-            'basketId' => "1231231567",
+            'basketId' => '1231231567',
             // Optional -> Order Number Or Basket Id  etc. may be assigned
             'paymentChannel' => PaymentChannel::WEB,
             // Optional
             'paymentGroup' => PaymentGroup::PRODUCT,
             // Optional
             'card' => $paymentCard,
-            'registerCard' => "0",
+            'registerCard' => '0',
             // Optional
-            'buyerId' => "123123123",
-            'identityNumber' => "11111111111",
+            'buyerId' => '123123123',
+            'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.56',
             'items' => $basketItems
 
         ];
 
         /** @var Purchase3dResponse $response */
-        $response = $this->gateway->purchase($this->parameters)->send();
+        try {
+            $response = $this->gateway->purchase($this->parameters)->send();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
         // $redirectData = $response->getRedirectData();
         // $redirectUrl = $response->getRedirectUrl();
         // $threeDHtmlContent = $response->getThreeDHtmlContent();
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testPurchaseInfo()
+    public function testPurchaseInfo(): void
     {
         $this->parameters = [
             'paymentId' => '12126832'
@@ -257,12 +278,12 @@ class GatewayTest extends GatewayTestCase
     }
 
 
-    public function testAddCard()
+    public function testAddCard(): void
     {
 
     }
 
-    public function testGetCardList()
+    public function testGetCardList(): void
     {
         $this->parameters = [
             'locale' => Locale::TR,
@@ -274,7 +295,7 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testCancelPurchase()
+    public function testCancelPurchase(): void
     {
         $this->parameters = [
             'paymentId' => '12126832',
@@ -286,7 +307,7 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testInstallmentInfo()
+    public function testInstallmentInfo(): void
     {
         $this->parameters = [
             'locale' => Locale::TR,
@@ -299,22 +320,23 @@ class GatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
     }
 
-    public function testCallBackUrl(){
+    public function testCallBackUrl(): void
+    {
         $callBackUrlPostData = [
-            'status' => "success",
-            'paymentId' => "12130103",
+            'status' => 'success',
+            'paymentId' => '12130103',
             'conversationData' => null, // Should be send to Complete Purchase Request when it is not empty or not null
-            'conversationId' => "83ec2b9686168e1747beb624ef607a264a23437b",
+            'conversationId' => '83ec2b9686168e1747beb624ef607a264a23437b',
             'mdStatus' => 1
         ];
-        if ($callBackUrlPostData["status"] === "success" && $callBackUrlPostData["mdStatus"] === 1) { // Status must be 'success' and also 'mdStatus' must be 1 to make complete Purchase Request
+        if ($callBackUrlPostData['status'] === 'success' && $callBackUrlPostData['mdStatus'] === 1) { // Status must be 'success' and also 'mdStatus' must be 1 to make complete Purchase Request
             $this->parameters = [
                 'locale' => Locale::TR, // Optional
-                'paymentId' => $callBackUrlPostData["paymentId"]
+                'paymentId' => $callBackUrlPostData['paymentId']
             ];
 
-            if (!empty($callBackUrlPostData["conversationData"])) {
-                $this->parameters["conversationData"] = $callBackUrlPostData["conversationData"];
+            if (!empty($callBackUrlPostData['conversationData'])) {
+                $this->parameters['conversationData'] = $callBackUrlPostData['conversationData'];
             }
 
             /** @var CompletePurchaseResponse $response */
