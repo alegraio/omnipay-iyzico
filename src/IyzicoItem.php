@@ -14,7 +14,7 @@ class IyzicoItem extends Item implements IyzicoItemInterface
 
     public function getId()
     {
-        return $this->getParameter("id");
+        return $this->getParameter('id');
     }
 
     public function setCategory1($category1): IyzicoItem
@@ -24,7 +24,7 @@ class IyzicoItem extends Item implements IyzicoItemInterface
 
     public function getCategory1()
     {
-        return $this->getParameter("category1");
+        return $this->getParameter('category1');
     }
 
     public function setCategory2($category2): IyzicoItem
@@ -34,7 +34,7 @@ class IyzicoItem extends Item implements IyzicoItemInterface
 
     public function getCategory2()
     {
-        return $this->getParameter("category2");
+        return $this->getParameter('category2');
     }
 
     public function setItemType($itemType): IyzicoItem
@@ -44,6 +44,6 @@ class IyzicoItem extends Item implements IyzicoItemInterface
 
     public function getItemType()
     {
-        return $this->getParameter("itemType");
+        return $this->getParameter('itemType');
     }
 }

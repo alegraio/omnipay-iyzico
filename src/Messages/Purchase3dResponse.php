@@ -2,13 +2,14 @@
 
 namespace Omnipay\Iyzico\Messages;
 
+use DOMAttr;
 use DOMDocument;
 use Iyzipay\JsonBuilder;
 
 class Purchase3dResponse extends AbstractResponse
 {
-    private $formId = "iyzico-3ds-form";
-    private $threeDHtmlContent = "";
+    private $formId = 'iyzico-3ds-form';
+    private $threeDHtmlContent = '';
 
     /* @var $domDocument  domDocument */
     private $domDocument = null;
@@ -64,17 +65,19 @@ class Purchase3dResponse extends AbstractResponse
     private function parseRedirectData(): array
     {
         $redirectData = [];
-        $input_tags = $this->domDocument->getElementsByTagName("input");
+        $input_tags = $this->domDocument->getElementsByTagName('input');
         for ($i = 0; $i < $input_tags->length; $i++) {
             if (is_object($input_tags->item($i))) {
                 $value = '';
+                /* @var $name_o DOMAttr */
                 $name_o = $input_tags->item($i)->attributes->getNamedItem('name');
                 if (is_object($name_o) && $name_o !== null) {
                     $name = $name_o->value;
 
+                    /* @var $value_o DOMAttr */
                     $value_o = $input_tags->item($i)->attributes->getNamedItem('value');
                     if (is_object($value_o)) {
-                        $value = $input_tags->item($i)->attributes->getNamedItem('value')->value;
+                        $value = $value_o->value;
                     }
 
                     $redirectData[$name] = $value;
@@ -90,7 +93,7 @@ class Purchase3dResponse extends AbstractResponse
         if (!$form = $this->domDocument->getElementById($this->formId)) {
             return '';
         }
-        return $form->getAttribute("action");
+        return $form->getAttribute('action');
     }
 
     /**
