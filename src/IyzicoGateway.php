@@ -26,7 +26,7 @@ class IyzicoGateway extends AbstractGateway
     /**
      * @inheritDoc
      */
-    public function getName()
+    public function getName(): string
     {
         return 'Iyzico';
     }
@@ -46,17 +46,17 @@ class IyzicoGateway extends AbstractGateway
         return $this->getParameter("baseUrl");
     }
 
-    public function setApiKey($apiKey)
+    public function setApiKey($apiKey): IyzicoGateway
     {
         return $this->setParameter('apiKey', $apiKey);
     }
 
-    public function setSecretKey($apiSecret)
+    public function setSecretKey($apiSecret): IyzicoGateway
     {
         return $this->setParameter('secretKey', $apiSecret);
     }
 
-    public function setBaseUrl($baseUrl)
+    public function setBaseUrl($baseUrl): IyzicoGateway
     {
         return $this->setParameter('baseUrl', $baseUrl);
     }
@@ -78,7 +78,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function purchase(array $parameters = array())
     {
-        $force3ds = isset($parameters['force3ds']) ? $parameters['force3ds'] : 'auto';
+        $force3ds = $parameters['force3ds'] ?? 'auto';
         switch ($force3ds) {
             case "auto":
                 return $this->purchaseAuto($parameters);
@@ -95,7 +95,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function purchase3d(array $parameters = array())
+    public function purchase3d(array $parameters = array()): AbstractRequest
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\Purchase3dRequest', $parameters);
     }
@@ -104,7 +104,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function completePurchase(array $parameters = array())
+    public function completePurchase(array $parameters = array()): AbstractRequest
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\CompletePurchaseRequest', $parameters);
     }
@@ -113,7 +113,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function purchaseInfo(array $parameters = array())
+    public function purchaseInfo(array $parameters = array()): AbstractRequest
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\PurchaseInfoRequest', $parameters);
     }
@@ -131,7 +131,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function cancelPurchase(array $parameters = array())
+    public function cancelPurchase(array $parameters = array()): AbstractRequest
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\CancelPurchaseRequest', $parameters);
     }
@@ -149,7 +149,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function addCard(array $parameters = array())
+    public function addCard(array $parameters = array()): AbstractRequest
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\AddCardRequest', $parameters);
     }
@@ -158,7 +158,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function getCardList(array $parameters = array())
+    public function getCardList(array $parameters = array()): AbstractRequest
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\CardListRequest', $parameters);
     }
@@ -175,7 +175,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function installmentInfo(array $parameters = [])
+    public function installmentInfo(array $parameters = []): AbstractRequest
     {
         return $this->createRequest('\Omnipay\Iyzico\Messages\InstallmentInfoRequest', $parameters);
     }
@@ -189,7 +189,8 @@ class IyzicoGateway extends AbstractGateway
     {
         try {
             if (isset($parameters["paymentCard"]["cardNumber"]) && $cardNumber = $parameters["paymentCard"]["cardNumber"]) {
-                $cardNumber = trim(preg_replace("/[^0-9]/", "", $cardNumber)); // drop non numeric characters and trim spaces
+                $cardNumber = trim(preg_replace("/[^0-9]/", "",
+                    $cardNumber)); // drop non numeric characters and trim spaces
                 $installmentInfoParameters = [
                     'locale' => Locale::TR,
                     'binNumber' => substr($cardNumber, 0, 6),

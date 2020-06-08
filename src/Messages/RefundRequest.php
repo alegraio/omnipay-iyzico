@@ -52,7 +52,7 @@ class RefundRequest extends AbstractRequest
      *
      * @param string $paymentTransactionId
      */
-    public function setPaymentTransactionId(string $paymentTransactionId)
+    public function setPaymentTransactionId(string $paymentTransactionId): void
     {
         $this->setParameter("paymentTransactionId", $paymentTransactionId);
     }

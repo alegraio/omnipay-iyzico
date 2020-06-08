@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Omnipay\Iyzico\Messages;
-
 
 use Iyzipay\Model\ThreedsPayment;
 use Iyzipay\Request\CreateThreedsPaymentRequest;
@@ -45,12 +43,12 @@ class CompletePurchaseRequest extends AbstractRequest
         return $this->getParameter("conversationData");
     }
 
-    public function setConversationId($conversationId)
+    public function setConversationId($conversationId): void
     {
         $this->setParameter("conversationId", $conversationId);
     }
 
-    public function setConversationData($conversationData)
+    public function setConversationData($conversationData): void
     {
         $this->setParameter("conversationData", $conversationData);
     }

@@ -7,12 +7,12 @@ use Iyzipay\Request\RetrieveInstallmentInfoRequest;
 
 class InstallmentInfoRequest extends AbstractRequest
 {
-    public function setBinNumber($binNumber)
+    public function setBinNumber($binNumber): void
     {
         $this->setParameter("binNumber", $binNumber);
     }
 
-    public function setPrice($price)
+    public function setPrice($price): void
     {
         $this->setParameter("price", $price);
     }
@@ -33,7 +33,7 @@ class InstallmentInfoRequest extends AbstractRequest
             "locale" => $this->getLocale(),
             "binNumber" => $this->getBinNumber(),
             "price" => $this->getPrice(),
-            "id" => uniqid(),
+            "id" => \IzyicoHelper::createUniqueID(),
             "timestamp" => date("YmdHis")
         );
         $data = serialize($data);

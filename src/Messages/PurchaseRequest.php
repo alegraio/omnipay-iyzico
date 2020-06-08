@@ -1,10 +1,10 @@
 <?php
+
 namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\Address;
 use Iyzipay\Model\BasketItem;
 use Iyzipay\Model\Buyer;
-use Iyzipay\Model\Locale;
 use Iyzipay\Model\Payment;
 use Iyzipay\Model\PaymentCard;
 use Iyzipay\Request\CreatePaymentRequest;
@@ -80,7 +80,8 @@ class PurchaseRequest extends AbstractRequest
         return $request;
     }
 
-    public function getBasketItems(){
+    public function getBasketItems()
+    {
         $basketItems = [];
         /* @var IyzicoItemBag $itemBag */
         $itemBag = $this->getParameter("items");
@@ -108,49 +109,47 @@ class PurchaseRequest extends AbstractRequest
         return new PurchaseResponse($this, Payment::create($data, $options));
     }
 
-    public function setLocale($locale)
-    {
-        $this->setParameter("locale", $locale);
-    }
-
-    public function setPrice($locale)
+    public function setPrice($locale): void
     {
         $this->setParameter("price", $locale);
     }
 
-    public function setPaidPrice($locale)
+    public function setPaidPrice($locale): void
     {
         $this->setParameter("paidPrice", $locale);
     }
 
-    public function setInstallment($locale)
+    public function setInstallment($locale): void
     {
         $this->setParameter("installment", $locale);
     }
 
-    public function setBasketId($locale)
+    public function setBasketId($locale): void
     {
         $this->setParameter("basketId", $locale);
     }
 
-    public function setPaymentChannel($locale)
+    public function setPaymentChannel($locale): void
     {
         $this->setParameter("paymentChannel", $locale);
     }
-    public function setPaymentGroup($locale)
+
+    public function setPaymentGroup($locale): void
     {
         $this->setParameter("paymentGroup", $locale);
     }
-    public function setRegisterCard($locale)
+
+    public function setRegisterCard($locale): void
     {
         $this->setParameter("registerCard", $locale);
     }
-    public function setBuyerId($locale)
+
+    public function setBuyerId($locale): void
     {
         $this->setParameter("buyerId", $locale);
     }
 
-    public function setIdentityNumber($locale)
+    public function setIdentityNumber($locale): void
     {
         $this->setParameter("identityNumber", $locale);
     }
@@ -159,7 +158,7 @@ class PurchaseRequest extends AbstractRequest
     {
         $data = array(
             "locale" => $this->getLocale(),
-            "id" => uniqid(),
+            "id" => \IzyicoHelper::createUniqueID(),
             "timestamp" => date("YmdHis")
         );
         $data = serialize($data);
@@ -172,7 +171,8 @@ class PurchaseRequest extends AbstractRequest
         return $this->buildTransactionID();
     }
 
-    public function getCardHolderName(){
+    public function getCardHolderName(): string
+    {
         return $this->getCard()->getName();
     }
 
@@ -236,12 +236,12 @@ class PurchaseRequest extends AbstractRequest
         return (!empty($this->getParameter("registrationAddress"))) ? $this->getParameter("registrationAddress") : $this->getCard()->getAddress1();
     }
 
-    private function getShippingContactName()
+    private function getShippingContactName(): string
     {
         return $this->getCard()->getShippingName();
     }
 
-    private function getBillingContactName()
+    private function getBillingContactName(): string
     {
         return $this->getCard()->getBillingName();
     }

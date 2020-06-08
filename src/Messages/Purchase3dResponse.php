@@ -1,21 +1,19 @@
 <?php
 
-
 namespace Omnipay\Iyzico\Messages;
-
 
 use DOMDocument;
 use Iyzipay\JsonBuilder;
 
 class Purchase3dResponse extends AbstractResponse
 {
-    private string $formId = "iyzico-3ds-form";
-    private string $threeDHtmlContent = "";
+    private $formId = "iyzico-3ds-form";
+    private $threeDHtmlContent = "";
 
     /* @var $domDocument  domDocument */
-    private ?DOMDocument $domDocument = null;
+    private $domDocument = null;
 
-    public function isRedirect()
+    public function isRedirect(): bool
     {
         return true;
     }
@@ -23,7 +21,7 @@ class Purchase3dResponse extends AbstractResponse
     /**
      * @return Purchase3dResponse
      */
-    private function setThreeDHtmlContent()
+    private function setThreeDHtmlContent(): Purchase3dResponse
     {
         $rawResult = $this->getResponse()->getRawResult();
         $rawResultObj = JsonBuilder::jsonDecode($rawResult);
@@ -34,7 +32,7 @@ class Purchase3dResponse extends AbstractResponse
     /**
      * @return Purchase3dResponse
      */
-    private function setDomDocument()
+    private function setDomDocument(): Purchase3dResponse
     {
         $this->domDocument = new domDocument;
         $this->domDocument->loadHTML($this->threeDHtmlContent);
@@ -42,7 +40,7 @@ class Purchase3dResponse extends AbstractResponse
         return $this;
     }
 
-    public function initHtmlData()
+    public function initHtmlData(): void
     {
         if (empty($this->threeDHtmlContent) || $this->domDocument === null) {
             $this
@@ -51,19 +49,19 @@ class Purchase3dResponse extends AbstractResponse
         }
     }
 
-    public function getRedirectData()
+    public function getRedirectData(): array
     {
         $this->initHtmlData();
         return $this->parseRedirectData();
     }
 
-    public function getRedirectUrl()
+    public function getRedirectUrl(): ?string
     {
         $this->initHtmlData();
         return $this->parseRedirectUrl();
     }
 
-    private function parseRedirectData()
+    private function parseRedirectData(): array
     {
         $redirectData = [];
         $input_tags = $this->domDocument->getElementsByTagName("input");
@@ -71,7 +69,7 @@ class Purchase3dResponse extends AbstractResponse
             if (is_object($input_tags->item($i))) {
                 $value = '';
                 $name_o = $input_tags->item($i)->attributes->getNamedItem('name');
-                if (is_object($name_o)) {
+                if (is_object($name_o) && $name_o !== null) {
                     $name = $name_o->value;
 
                     $value_o = $input_tags->item($i)->attributes->getNamedItem('value');
@@ -87,9 +85,12 @@ class Purchase3dResponse extends AbstractResponse
 
     }
 
-    private function parseRedirectUrl()
+    private function parseRedirectUrl(): string
     {
-        return $this->domDocument->getElementById($this->formId)->getAttribute("action");
+        if (!$form = $this->domDocument->getElementById($this->formId)) {
+            return '';
+        }
+        return $form->getAttribute("action");
     }
 
     /**
@@ -99,6 +100,5 @@ class Purchase3dResponse extends AbstractResponse
     {
         return $this->threeDHtmlContent;
     }
-
 
 }

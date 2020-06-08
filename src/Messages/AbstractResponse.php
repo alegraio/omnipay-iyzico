@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Omnipay\Iyzico\Messages;
-
 
 use Iyzipay\IyzipayResource;
 use Omnipay\Common\Message\RedirectResponseInterface;
@@ -24,11 +22,7 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
      */
     public function isSuccessful(): bool
     {
-        if ('success' !== $this->response->getStatus()) {
-            return false;
-        }
-
-        return true;
+        return !('success' !== $this->response->getStatus());
     }
 
     /**
@@ -50,7 +44,7 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
     /**
      * @param IyzipayResource $response
      */
-    public function setResponse(IyzipayResource $response)
+    public function setResponse(IyzipayResource $response): void
     {
         $this->response = $response;
     }
@@ -67,7 +61,7 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
         return null;
     }
 
-    public function getRedirectMethod()
+    public function getRedirectMethod(): string
     {
         return 'POST';
     }

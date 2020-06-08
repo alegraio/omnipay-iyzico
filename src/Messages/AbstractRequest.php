@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\Locale;
@@ -9,7 +8,7 @@ use Iyzipay\Options;
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 
-    public function getOptions()
+    public function getOptions(): Options
     {
         $options = new Options();
         $options->setApiKey($this->getApiKey());
@@ -58,7 +57,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter("baseUrl");
     }
 
-    public function setBaseUrl($baseUrl)
+    public function setBaseUrl($baseUrl): AbstractRequest
     {
         return $this->setParameter('baseUrl', $baseUrl);
     }
@@ -76,7 +75,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * @param string $paymentId
      */
-    public function setPaymentId(string $paymentId)
+    public function setPaymentId(string $paymentId): void
     {
         $this->setParameter("paymentId", $paymentId);
     }
@@ -94,7 +93,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     /**
      * @param string $locale
      */
-    public function setLocale(string $locale)
+    public function setLocale(string $locale): void
     {
         $this->setParameter("locale", $locale);
     }

@@ -14,7 +14,7 @@ class IyzicoItemBag extends ItemBag
      * @see Item
      *
      */
-    public function add($item)
+    public function add($item): void
     {
         if ($item instanceof ItemInterface) {
             $this->items[] = $item;
@@ -26,7 +26,8 @@ class IyzicoItemBag extends ItemBag
     /**
      * @return ItemInterface|array
      */
-    public function getItems(){
+    public function getItems()
+    {
         return $this->items;
     }
 
