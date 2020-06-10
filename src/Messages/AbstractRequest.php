@@ -7,6 +7,8 @@ use Iyzipay\Options;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
+    protected $liveEndpoint = 'https://api.iyzipay.com';
+    protected $testEndpoint = 'https://sandbox-api.iyzipay.com';
 
     public function getOptions(): Options
     {
@@ -52,9 +54,9 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('secretKey', $value);
     }
 
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
-        return $this->getParameter('baseUrl');
+        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 
     public function setBaseUrl($baseUrl): AbstractRequest
