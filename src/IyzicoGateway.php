@@ -202,7 +202,7 @@ class IyzicoGateway extends AbstractGateway
     public function purchaseAuto(array $parameters)
     {
         try {
-            if (isset($parameters['paymentCard']['cardNumber']) && $cardNumber = $parameters['paymentCard']['cardNumber']) {
+            if (isset($parameters['card']['number']) && $cardNumber = $parameters['card']['number']) {
                 $cardNumber = trim(preg_replace('/[^0-9]/', '',
                     $cardNumber)); // drop non numeric characters and trim spaces
                 $installmentInfoParameters = [
@@ -213,6 +213,10 @@ class IyzicoGateway extends AbstractGateway
 
                 $response = $this->installmentInfo($installmentInfoParameters)->send();
                 $installmentData = $response->getData();
+
+                if (false === $installmentData) {
+                    throw new Exception('Card installment details could not be retrieved');
+                }
                 $installmentDetails = $installmentData->getInstallmentDetails();
                 $installmentDetail = $installmentDetails[0];
                 /* @var $installmentDetail InstallmentDetail */
