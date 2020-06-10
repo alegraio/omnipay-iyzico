@@ -209,6 +209,7 @@ class IyzicoGateway extends AbstractGateway
                     'locale' => Locale::TR,
                     'binNumber' => substr($cardNumber, 0, 6),
                     'price' => 999,
+                    'testMode' => $parameters['testMode'] ?? false
                 ];
 
                 $response = $this->installmentInfo($installmentInfoParameters)->send();

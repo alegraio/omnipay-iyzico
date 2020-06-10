@@ -8,7 +8,6 @@ use Iyzipay\Model\Currency;
 use Iyzipay\Model\Locale;
 use Iyzipay\Model\PaymentChannel;
 use Iyzipay\Model\PaymentGroup;
-use Omnipay\Common\CreditCard;
 use Omnipay\Iyzico\IyzicoGateway;
 use Omnipay\Iyzico\Messages\CancelPurchaseResponse;
 use Omnipay\Iyzico\Messages\CompletePurchaseResponse;
@@ -38,7 +37,7 @@ class GatewayTest extends GatewayTestCase
         $this->gateway = new IyzicoGateway(null, $this->getHttpRequest());
         $this->gateway->setApiKey('sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX');
         $this->gateway->setSecretKey('sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ');
-        $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
+        // $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
     }
 
     public function testDeleteCard(): void
@@ -51,7 +50,8 @@ class GatewayTest extends GatewayTestCase
         $this->parameters = [
             'paymentTransactionId' => '12823076',
             'clientIp' => '11.11.11.111',
-            'amount' => '10'
+            'amount' => '10',
+            'testMode' => true
         ];
 
         /** @var RefundResponse $response */
@@ -69,30 +69,31 @@ class GatewayTest extends GatewayTestCase
      */
     public function testPurchase(): void
     {
-        $paymentCard = new CreditCard();
-        $paymentCard->setNumber('5170410000000004');
-        $paymentCard->setExpiryMonth('12');
-        $paymentCard->setExpiryYear('2030');
-        $paymentCard->setCvv('123');
-        $paymentCard->setEmail('mail@mail.com');
-        $paymentCard->setPhone('(555) 555-555');
-        $paymentCard->setCity('Istanbul');
-        $paymentCard->setCountry('Turkey');
-        $paymentCard->setPostcode('34732');
+        $paymentCard = [
+            'number' => '5170410000000004',
+            'expiryMonth' => '12',
+            'expiryYear' => '2030',
+            'cvv' => '123',
+            'email' => 'mail@mail.com',
+            // Billing Information
+            'billingPhone' => '(555) 555-555',
+            'billingCity' => 'Istanbul',
+            'billingCountry' => 'Turkey',
+            'billingPostcode' => '34732',
+            'billingFirstName' => 'John',
+            'billingLastName' => 'Doe',
+            'billingAddress1' => 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
 
-        // Shipping
-        $paymentCard->setShippingName('John Doe');
-        $paymentCard->setShippingCity('Istanbul');
-        $paymentCard->setShippingCountry('Turkey');
-        $paymentCard->setShippingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
-        $paymentCard->setShippingPostcode('34732');
+            // Shipping Information
+            'shippingPhone' => '(555) 555-555',
+            'shippingCity' => 'Istanbul',
+            'shippingCountry' => 'Turkey',
+            'shippingPostcode' => '34732',
+            'shippingFirstName' => 'John',
+            'shippingLastName' => 'Doe',
+            'shippingAddress1' => 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
 
-        // Billing
-        $paymentCard->setBillingName('John Doe');
-        $paymentCard->setBillingCity('Istanbul');
-        $paymentCard->setBillingCountry('Turkey');
-        $paymentCard->setBillingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
-        $paymentCard->setBillingPostcode('34732');
+        ];
 
 
         $items = [
@@ -121,10 +122,10 @@ class GatewayTest extends GatewayTestCase
 
         $this->parameters = [
             'locale' => Locale::TR,
-            'force3ds' => '0',
+            // 'force3ds' => '0',
             // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
-            'callbackUrl' => 'www.callback.com',
-            // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
+            'returnUrl' => 'www.callback.com',
+            // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'returnUrl' parameter must be in data of Request
             'price' => '1',
             'paidPrice' => '1.2',
             'currency' => Currency::TL,
@@ -138,10 +139,11 @@ class GatewayTest extends GatewayTestCase
             'card' => $paymentCard,
             'registerCard' => '0',
             // Optional
-            'buyerId' => '123123123',
+            'buyerId' => 'mail@mail.com',
             'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.13',
-            'items' => $basketItems
+            'items' => $basketItems,
+            'testMode' => true
 
         ];
 
@@ -152,6 +154,7 @@ class GatewayTest extends GatewayTestCase
             throw new Exception($e->getMessage());
         }
         $this->assertTrue($response->isSuccessful());
+        // $this->assertArrayHasKey('orderId', $response->getRedirectData());
     }
 
     public function testCompletePurchase(): void
@@ -159,6 +162,7 @@ class GatewayTest extends GatewayTestCase
         $this->parameters = [
             'locale' => Locale::TR, // Optional
             'paymentId' => '12126832',
+            'testMode' => true
             // 'conversationId' => '12341234', Optional
             // 'conversationData' => 'testdata' Optional
         ];
@@ -178,30 +182,31 @@ class GatewayTest extends GatewayTestCase
      */
     public function testPurchase3d(): void
     {
-        $paymentCard = new CreditCard();
-        $paymentCard->setNumber('5170410000000004');
-        $paymentCard->setExpiryMonth('12');
-        $paymentCard->setExpiryYear('2030');
-        $paymentCard->setCvv('123');
-        $paymentCard->setEmail('mail@mail.com');
-        $paymentCard->setPhone('(555) 555-555');
-        $paymentCard->setCity('Istanbul');
-        $paymentCard->setCountry('Turkey');
-        $paymentCard->setPostcode('34732');
+        $paymentCard = [
+            'number' => '5170410000000004',
+            'expiryMonth' => '12',
+            'expiryYear' => '2030',
+            'cvv' => '123',
+            'email' => 'mail@mail.com',
+            // Billing Information
+            'billingPhone' => '(555) 555-555',
+            'billingCity' => 'Istanbul',
+            'billingCountry' => 'Turkey',
+            'billingPostcode' => '34732',
+            'billingFirstName' => 'John',
+            'billingLastName' => 'Doe',
+            'billingAddress1' => 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
 
-        // Shipping
-        $paymentCard->setShippingName('John Doe');
-        $paymentCard->setShippingCity('Istanbul');
-        $paymentCard->setShippingCountry('Turkey');
-        $paymentCard->setShippingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
-        $paymentCard->setShippingPostcode('34732');
+            // Shipping Information
+            'shippingPhone' => '(555) 555-555',
+            'shippingCity' => 'Istanbul',
+            'shippingCountry' => 'Turkey',
+            'shippingPostcode' => '34732',
+            'shippingFirstName' => 'John',
+            'shippingLastName' => 'Doe',
+            'shippingAddress1' => 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
 
-        // Billing
-        $paymentCard->setBillingName('John Doe');
-        $paymentCard->setBillingCity('Istanbul');
-        $paymentCard->setBillingCountry('Turkey');
-        $paymentCard->setBillingAddress1('Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1');
-        $paymentCard->setBillingPostcode('34732');
+        ];
 
 
         $items = [
@@ -250,7 +255,8 @@ class GatewayTest extends GatewayTestCase
             'buyerId' => '123123123',
             'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.56',
-            'items' => $basketItems
+            'items' => $basketItems,
+            'testMode' => true
 
         ];
 
@@ -264,12 +270,14 @@ class GatewayTest extends GatewayTestCase
         // $redirectUrl = $response->getRedirectUrl();
         // $threeDHtmlContent = $response->getThreeDHtmlContent();
         $this->assertTrue($response->isSuccessful());
+        $this->assertArrayHasKey('orderId', $response->getRedirectData());
     }
 
     public function testPurchaseInfo(): void
     {
         $this->parameters = [
-            'paymentId' => '12126832'
+            'paymentId' => '12126832',
+            'testMode' => true
         ];
 
         /** @var PurchaseInfoResponse $response */
@@ -287,7 +295,8 @@ class GatewayTest extends GatewayTestCase
     {
         $this->parameters = [
             'locale' => Locale::TR,
-            'cardUserKey' => 'card user key'
+            'cardUserKey' => 'card user key',
+            'testMode' => true
         ];
 
         /** @var CardListResponse $response */
@@ -299,7 +308,8 @@ class GatewayTest extends GatewayTestCase
     {
         $this->parameters = [
             'paymentId' => '12126832',
-            'clientIp' => '11.11.11.111'
+            'clientIp' => '11.11.11.111',
+            'testMode' => true
         ];
 
         /** @var CancelPurchaseResponse $response */
@@ -311,8 +321,9 @@ class GatewayTest extends GatewayTestCase
     {
         $this->parameters = [
             'locale' => Locale::TR,
-            'binNumber' => '554960',
+            'binNumber' => '552608',
             'price' => 100,
+            'testMode' => true
         ];
 
         /** @var InstallmentInfoResponse $response */
@@ -332,7 +343,8 @@ class GatewayTest extends GatewayTestCase
         if ($callBackUrlPostData['status'] === 'success' && $callBackUrlPostData['mdStatus'] === 1) { // Status must be 'success' and also 'mdStatus' must be 1 to make complete Purchase Request
             $this->parameters = [
                 'locale' => Locale::TR, // Optional
-                'paymentId' => $callBackUrlPostData['paymentId']
+                'paymentId' => $callBackUrlPostData['paymentId'],
+                'testMode' => true
             ];
 
             if (!empty($callBackUrlPostData['conversationData'])) {
