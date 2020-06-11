@@ -8,6 +8,11 @@ class Purchase3dRequest extends AbstractRequest
 {
     use PurchaseRequestTrait;
 
+    public function getCallBackUrl(): string
+    {
+        return $this->getReturnUrl();
+    }
+
     /**
      * @inheritDoc
      */

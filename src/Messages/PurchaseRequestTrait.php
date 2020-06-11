@@ -42,7 +42,7 @@ trait PurchaseRequestTrait
         ($this->getBasketId() !== null) ? $request->setBasketId($this->getBasketId()) : null; // BasketId is optional
         ($this->getPaymentChannel() !== null) ? $request->setPaymentChannel($this->getPaymentChannel()) : null; // PaymentChannel is optional
         ($this->getPaymentGroup() !== null) ? $request->setPaymentGroup($this->getPaymentGroup()) : null; // PaymentGroup is optional
-        $request->setCallbackUrl($this->getReturnUrl());
+        (!empty($this->getCallBackUrl())) ? $request->setCallbackUrl($this->getCallBackUrl()) : null;
 
         $paymentCard = new PaymentCard();
         $paymentCard->setCardHolderName($card->getName());
@@ -139,6 +139,11 @@ trait PurchaseRequestTrait
     public function setRegisterCard($value): void
     {
         $this->setParameter('registerCard', $value);
+    }
+
+    public function getCallBackUrl(): string
+    {
+        return '';
     }
 
     private function getConversationId(): string
