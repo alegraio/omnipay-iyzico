@@ -35,6 +35,7 @@ class GatewayTest extends GatewayTestCase
     {
         /** @var IyzicoGateway gateway */
         $this->gateway = new IyzicoGateway(null, $this->getHttpRequest());
+        $this->gateway->setParameter('testMode', true);
         $this->gateway->setApiKey('sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX');
         $this->gateway->setSecretKey('sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ');
         // $this->gateway->setBaseUrl('https://sandbox-api.iyzipay.com');
@@ -50,8 +51,7 @@ class GatewayTest extends GatewayTestCase
         $this->parameters = [
             'paymentTransactionId' => '12823076',
             'clientIp' => '11.11.11.111',
-            'amount' => '10',
-            'testMode' => true
+            'amount' => '10'
         ];
 
         /** @var RefundResponse $response */
@@ -142,8 +142,7 @@ class GatewayTest extends GatewayTestCase
             'buyerId' => 'mail@mail.com',
             'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.13',
-            'items' => $basketItems,
-            'testMode' => true
+            'items' => $basketItems
 
         ];
 
@@ -161,8 +160,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->parameters = [
             'locale' => Locale::TR, // Optional
-            'paymentId' => '12126832',
-            'testMode' => true
+            'paymentId' => '12126832'
             // 'conversationId' => '12341234', Optional
             // 'conversationData' => 'testdata' Optional
         ];
@@ -255,8 +253,7 @@ class GatewayTest extends GatewayTestCase
             'buyerId' => '123123123',
             'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.56',
-            'items' => $basketItems,
-            'testMode' => true
+            'items' => $basketItems
 
         ];
 
@@ -276,8 +273,7 @@ class GatewayTest extends GatewayTestCase
     public function testPurchaseInfo(): void
     {
         $this->parameters = [
-            'paymentId' => '12126832',
-            'testMode' => true
+            'paymentId' => '12126832'
         ];
 
         /** @var PurchaseInfoResponse $response */
@@ -295,8 +291,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->parameters = [
             'locale' => Locale::TR,
-            'cardUserKey' => 'card user key',
-            'testMode' => true
+            'cardUserKey' => 'card user key'
         ];
 
         /** @var CardListResponse $response */
@@ -308,8 +303,7 @@ class GatewayTest extends GatewayTestCase
     {
         $this->parameters = [
             'paymentId' => '12126832',
-            'clientIp' => '11.11.11.111',
-            'testMode' => true
+            'clientIp' => '11.11.11.111'
         ];
 
         /** @var CancelPurchaseResponse $response */
@@ -322,8 +316,7 @@ class GatewayTest extends GatewayTestCase
         $this->parameters = [
             'locale' => Locale::TR,
             'binNumber' => '552608',
-            'price' => 100,
-            'testMode' => true
+            'price' => 100
         ];
 
         /** @var InstallmentInfoResponse $response */
@@ -343,8 +336,7 @@ class GatewayTest extends GatewayTestCase
         if ($callBackUrlPostData['status'] === 'success' && $callBackUrlPostData['mdStatus'] === 1) { // Status must be 'success' and also 'mdStatus' must be 1 to make complete Purchase Request
             $this->parameters = [
                 'locale' => Locale::TR, // Optional
-                'paymentId' => $callBackUrlPostData['paymentId'],
-                'testMode' => true
+                'paymentId' => $callBackUrlPostData['paymentId']
             ];
 
             if (!empty($callBackUrlPostData['conversationData'])) {
