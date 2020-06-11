@@ -62,7 +62,7 @@ trait PurchaseRequestTrait
         $buyer->setIdentityNumber($customer->getIdentityNumber());
         ($customer->getLastLoginDate() !== null) ? $buyer->setLastLoginDate($customer->getLastLoginDate()) : null; // LastLoginDate is optional
         ($customer->getRegistrationDate() !== null) ? $buyer->setRegistrationDate($customer->getRegistrationDate()) : null; // RegistrationDate is optional
-        $buyer->setRegistrationAddress($customer->getRegistrationAddress()); // If 'registrationAddress' exists, else CreditCard -> Address1
+        $buyer->setRegistrationAddress($customer->getClientAddress()); // If 'registrationAddress' exists, else CreditCard -> Address1
         $buyer->setIp($this->getClientIp());
         $buyer->setCity($customer->getClientCity());
         $buyer->setCountry($customer->getClientCountry());
