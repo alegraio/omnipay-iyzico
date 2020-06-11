@@ -215,17 +215,17 @@ class IyzicoGateway extends AbstractGateway
                 $installmentData = $response->getData();
 
                 if (false === $installmentData) {
-                    throw new Exception('Card installment details could not be retrieved');
+                    throw new \RuntimeException('Card installment details could not be retrieved');
                 }
                 $installmentDetails = $installmentData->getInstallmentDetails();
                 $installmentDetail = $installmentDetails[0];
                 /* @var $installmentDetail InstallmentDetail */
                 $force3ds = (string)$installmentDetail->getForce3ds();
             } else {
-                throw new Exception('Card number is missing in parameters');
+                throw new \RuntimeException('Card number is missing in parameters');
             }
         } catch (Exception $exception) {
-            throw new Exception("Couldn't fetch 3d information of card number");
+            throw new \RuntimeException("Couldn't fetch 3d information of card number");
         }
         $parameters['force3ds'] = $force3ds;
         return $this->purchase($parameters);

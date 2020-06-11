@@ -4,6 +4,7 @@ namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\Locale;
 use Iyzipay\Options;
+use Omnipay\Iyzico\Customer;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
@@ -89,7 +90,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function getLocale(): string
     {
-        return !empty($this->getParameter('locale')) ? $this->getParameter('locale') : Locale::TR;
+        return $this->getParameter('locale') ?? Locale::TR;
     }
 
     /**
@@ -98,5 +99,19 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function setLocale(string $locale): void
     {
         $this->setParameter('locale', $locale);
+    }
+
+    public function setCustomer($value): AbstractRequest
+    {
+        if ($value && !$value instanceof Customer) {
+            $value = new Customer($value);
+        }
+
+        return $this->setParameter('customer', $value);
+    }
+
+    public function getCustomer()
+    {
+        return $this->getParameter('customer');
     }
 }

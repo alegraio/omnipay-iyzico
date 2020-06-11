@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Omnipay\Iyzico\Messages;
-
 
 use Iyzipay\Model\Address;
 use Iyzipay\Model\BasketItem;
@@ -10,12 +8,21 @@ use Iyzipay\Model\Buyer;
 use Iyzipay\Model\PaymentCard;
 use Iyzipay\Request\CreatePaymentRequest;
 use Omnipay\Common\CreditCard;
-use Omnipay\Iyzico\Helper\IzyicoHelper;
+use Omnipay\Common\ItemBag;
 use Omnipay\Iyzico\IyzicoItem;
 use Omnipay\Iyzico\IyzicoItemBag;
 
 trait PurchaseRequestTrait
 {
+
+    public function setItems($items)
+    {
+        if ($items && !$items instanceof ItemBag) {
+            $items = new IyzicoItemBag($items);
+        }
+
+        return $this->setParameter('items', $items);
+    }
 
     /**
      * @inheritDoc
@@ -24,6 +31,7 @@ trait PurchaseRequestTrait
     {
         /*  @var $card CreditCard */
         $card = $this->getCard();
+        $client = $this->getClientInfo();
         $request = new CreatePaymentRequest();
         $request->setLocale($this->getLocale());
         $request->setConversationId($this->getConversationId());
@@ -90,9 +98,9 @@ trait PurchaseRequestTrait
     {
         $basketItems = [];
         /* @var IyzicoItemBag $itemBag */
-        $itemBag = $this->getParameter('items');
+        $items = $this->getItems();
         /* @var IyzicoItem $item */
-        foreach ($itemBag->getItems() as $item) {
+        foreach ($items as $item) {
             $basketItem = new BasketItem();
             $basketItem->setId($item->getId());
             $basketItem->setName($item->getName());
@@ -105,66 +113,44 @@ trait PurchaseRequestTrait
         return $basketItems;
     }
 
-    public function setPrice($locale): void
+    public function setPrice($value): void
     {
-        $this->setParameter('price', $locale);
+        $this->setParameter('price', $value);
     }
 
-    public function setPaidPrice($locale): void
+    public function setPaidPrice($value): void
     {
-        $this->setParameter('paidPrice', $locale);
+        $this->setParameter('paidPrice', $value);
     }
 
-    public function setInstallment($locale): void
+    public function setInstallment($value): void
     {
-        $this->setParameter('installment', $locale);
+        $this->setParameter('installment', $value);
     }
 
-    public function setBasketId($locale): void
+    public function setBasketId($value): void
     {
-        $this->setParameter('basketId', $locale);
+        $this->setParameter('basketId', $value);
     }
 
-    public function setPaymentChannel($locale): void
+    public function setPaymentChannel($value): void
     {
-        $this->setParameter('paymentChannel', $locale);
+        $this->setParameter('paymentChannel', $value);
     }
 
-    public function setPaymentGroup($locale): void
+    public function setPaymentGroup($value): void
     {
-        $this->setParameter('paymentGroup', $locale);
+        $this->setParameter('paymentGroup', $value);
     }
 
-    public function setRegisterCard($locale): void
+    public function setRegisterCard($value): void
     {
-        $this->setParameter('registerCard', $locale);
+        $this->setParameter('registerCard', $value);
     }
-
-    public function setBuyerId($locale): void
-    {
-        $this->setParameter('buyerId', $locale);
-    }
-
-    public function setIdentityNumber($locale): void
-    {
-        $this->setParameter('identityNumber', $locale);
-    }
-
-    public function buildTransactionID(): string
-    {
-        $data = array(
-            'locale' => $this->getLocale(),
-            'id' => IzyicoHelper::createUniqueID(),
-            'timestamp' => date('YmdHis')
-        );
-        $data = serialize($data);
-        return hash_hmac('sha1', $data, $this->getSecretKey());
-    }
-
 
     private function getConversationId(): string
     {
-        return $this->buildTransactionID();
+        return $this->getParameter('paymentId') ?? '';
     }
 
     public function getCardHolderName(): string
@@ -181,7 +167,7 @@ trait PurchaseRequestTrait
 
     private function getPaidPrice()
     {
-        return $this->getParameter('paidPrice');
+        return $this->getParameter('paidPrice') ?? $this->getParameter('price');
     }
 
     private function getInstallment()
@@ -207,16 +193,6 @@ trait PurchaseRequestTrait
     private function getRegisterCard()
     {
         return $this->getParameter('registerCard');
-    }
-
-    private function getBuyerId()
-    {
-        return $this->getParameter('buyerId');
-    }
-
-    private function getIdentityNumber()
-    {
-        return $this->getParameter('identityNumber');
     }
 
     private function getLastLoginDate()

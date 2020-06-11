@@ -3,6 +3,7 @@
 namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\IyzipayResource;
+use JsonException;
 use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
@@ -27,10 +28,11 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 
     /**
      * @return mixed
+     * @throws JsonException
      */
     public function getData()
     {
-        return $this->data = $this->response->getRawResult();
+        return $this->data = json_decode($this->response->getRawResult(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
