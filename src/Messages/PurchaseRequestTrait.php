@@ -35,7 +35,7 @@ trait PurchaseRequestTrait
         $request = new CreatePaymentRequest();
         $request->setLocale($this->getLocale());
         $request->setConversationId($this->getConversationId());
-        $request->setPrice($this->getPrice());
+        $request->setPrice($this->getAmount());
         $request->setPaidPrice($this->getPaidPrice());
         $request->setCurrency($this->getCurrency());
         $request->setInstallment($this->getInstallment());
@@ -45,7 +45,7 @@ trait PurchaseRequestTrait
         $request->setCallbackUrl($this->getReturnUrl());
 
         $paymentCard = new PaymentCard();
-        $paymentCard->setCardHolderName($this->getCardHolderName());
+        $paymentCard->setCardHolderName($card->getName());
         $paymentCard->setCardNumber($card->getNumber());
         $paymentCard->setExpireMonth($card->getExpiryMonth());
         $paymentCard->setExpireYear($card->getExpiryYear());
@@ -70,7 +70,7 @@ trait PurchaseRequestTrait
         $request->setBuyer($buyer);
 
         $shippingAddress = new Address();
-        $shippingAddress->setContactName($this->getShippingContactName());
+        $shippingAddress->setContactName($card->getShippingName());
         $shippingAddress->setCity($card->getShippingCity());
         $shippingAddress->setCountry($card->getShippingCountry());
         $shippingAddress->setAddress($card->getShippingAddress1());
@@ -78,7 +78,7 @@ trait PurchaseRequestTrait
         $request->setShippingAddress($shippingAddress);
 
         $billingAddress = new Address();
-        $billingAddress->setContactName($this->getBillingContactName());
+        $billingAddress->setContactName($card->getBillingName());
         $billingAddress->setCity($card->getBillingCity());
         $billingAddress->setCountry($card->getBillingCountry());
         $billingAddress->setAddress($card->getBillingAddress1());
@@ -109,11 +109,6 @@ trait PurchaseRequestTrait
             $basketItems[] = $basketItem;
         }
         return $basketItems;
-    }
-
-    public function setPrice($value): void
-    {
-        $this->setParameter('price', $value);
     }
 
     public function setPaidPrice($value): void
@@ -151,26 +146,14 @@ trait PurchaseRequestTrait
         return $this->getParameter('paymentId') ?? '';
     }
 
-    public function getCardHolderName(): string
-    {
-        /*  @var $card CreditCard */
-        $card = $this->getCard();
-        return $card->getName();
-    }
-
-    private function getPrice()
-    {
-        return $this->getParameter('price');
-    }
-
     private function getPaidPrice()
     {
-        return $this->getParameter('paidPrice') ?? $this->getParameter('price');
+        return $this->getParameter('paidPrice') ?? $this->getAmount();
     }
 
-    private function getInstallment()
+    private function getInstallment(): int
     {
-        return $this->getParameter('installment');
+        return $this->getParameter('installment') ?? 1;
     }
 
     private function getBasketId()
@@ -191,36 +174,5 @@ trait PurchaseRequestTrait
     private function getRegisterCard()
     {
         return $this->getParameter('registerCard');
-    }
-
-    private function getLastLoginDate()
-    {
-        return $this->getParameter('lastLoginDate');
-    }
-
-    private function getRegistrationDate()
-    {
-        return $this->getParameter('registrationDate');
-    }
-
-    private function getRegistrationAddress(): string
-    {
-        /*  @var $card CreditCard */
-        $card = $this->getCard();
-        return (!empty($this->getParameter('registrationAddress'))) ? $this->getParameter('registrationAddress') : $card->getAddress1();
-    }
-
-    private function getShippingContactName(): string
-    {
-        /*  @var $card CreditCard */
-        $card = $this->getCard();
-        return $card->getShippingName();
-    }
-
-    private function getBillingContactName(): string
-    {
-        /*  @var $card CreditCard */
-        $card = $this->getCard();
-        return $card->getBillingName();
     }
 }
