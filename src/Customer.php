@@ -52,7 +52,7 @@ class Customer
         return $this->setParameter('clientName', $value);
     }
 
-    public function getClientName($value)
+    public function getClientName()
     {
         return $this->getParameter('clientName');
     }
@@ -62,7 +62,7 @@ class Customer
         return $this->setParameter('clientSurName', $value);
     }
 
-    public function getClientSurName($value)
+    public function getClientSurName()
     {
         return $this->getParameter('clientSurName');
     }
@@ -72,7 +72,7 @@ class Customer
         return $this->setParameter('clientCity', $value);
     }
 
-    public function getClientCity($value)
+    public function getClientCity()
     {
         return $this->getParameter('clientCity');
     }
@@ -82,7 +82,7 @@ class Customer
         return $this->setParameter('clientCountry', $value);
     }
 
-    public function getClientCountry($value)
+    public function getClientCountry()
     {
         return $this->getParameter('clientCountry');
     }
@@ -92,7 +92,7 @@ class Customer
         return $this->setParameter('clientAddress', $value);
     }
 
-    public function getClientAddress($value)
+    public function getClientAddress()
     {
         return $this->getParameter('clientAddress');
     }
@@ -102,9 +102,59 @@ class Customer
         return $this->setParameter('clientEmail', $value);
     }
 
-    public function getClientEmail($value)
+    public function getClientEmail()
     {
         return $this->getParameter('clientEmail');
+    }
+
+    public function setClientPhone($value): Customer
+    {
+        return $this->setParameter('clientPhone', $value);
+    }
+
+    public function getClientPhone()
+    {
+        return $this->getParameter('clientPhone');
+    }
+
+    public function setLastLoginDate($value): Customer
+    {
+        return $this->setParameter('lastLoginDate', $value);
+    }
+
+    public function getLastLoginDate()
+    {
+        return $this->getParameter('lastLoginDate');
+    }
+
+    public function setRegistrationDate($value): Customer
+    {
+        return $this->setParameter('registrationDate', $value);
+    }
+
+    public function getRegistrationDate()
+    {
+        return $this->getParameter('registrationDate');
+    }
+
+    public function setRegistrationAddress($value): Customer
+    {
+        return $this->setParameter('registrationAddress', $value);
+    }
+
+    public function getRegistrationAddress()
+    {
+        return $this->getParameter('registrationAddress');
+    }
+
+    public function setPostcode($value): Customer
+    {
+        return $this->setParameter('postcode', $value);
+    }
+
+    public function getPostcode()
+    {
+        return $this->getParameter('postcode');
     }
 
     public function setIdentityNumber($value): Customer
@@ -112,7 +162,7 @@ class Customer
         return $this->setParameter('identityNumber', $value);
     }
 
-    public function getIdentityNumber($value)
+    public function getIdentityNumber()
     {
         return $this->getParameter('identityNumber');
     }

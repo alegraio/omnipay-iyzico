@@ -31,7 +31,7 @@ trait PurchaseRequestTrait
     {
         /*  @var $card CreditCard */
         $card = $this->getCard();
-        $client = $this->getClientInfo();
+        $customer = $this->getCustomer();
         $request = new CreatePaymentRequest();
         $request->setLocale($this->getLocale());
         $request->setConversationId($this->getConversationId());
@@ -54,21 +54,19 @@ trait PurchaseRequestTrait
         $request->setPaymentCard($paymentCard);
 
         $buyer = new Buyer();
-        $buyer->setId($this->getBuyerId());
-        $buyer->setName($card->getFirstName());
-        $buyer->setSurname($card->getLastName());
-        ($card->getPhone() !== null) ? $buyer->setGsmNumber($card->getPhone()) : null; // GsmNumber is optional
-        $buyer->setGsmNumber($card->getPhone());
-        $buyer->setEmail($card->getEmail());
-        $buyer->setIdentityNumber($this->getIdentityNumber());
-        ($this->getLastLoginDate() !== null) ? $buyer->setLastLoginDate($this->getLastLoginDate()) : null; // LastLoginDate is optional
-        ($this->getRegistrationDate() !== null) ? $buyer->setRegistrationDate($this->getRegistrationDate()) : null; // RegistrationDate is optional
-        $buyer->setRegistrationAddress($this->getRegistrationAddress()); // If 'registrationAddress' exists, else CreditCard -> Address1
+        $buyer->setId($customer->getClientId());
+        $buyer->setName($customer->getClientName());
+        $buyer->setSurname($customer->getClientSurName());
+        ($customer->getClientPhone() !== null) ? $buyer->setGsmNumber($customer->getClientPhone()) : null; // GsmNumber is optional
+        $buyer->setEmail($customer->getClientEmail());
+        $buyer->setIdentityNumber($customer->getIdentityNumber());
+        ($customer->getLastLoginDate() !== null) ? $buyer->setLastLoginDate($customer->getLastLoginDate()) : null; // LastLoginDate is optional
+        ($customer->getRegistrationDate() !== null) ? $buyer->setRegistrationDate($customer->getRegistrationDate()) : null; // RegistrationDate is optional
+        $buyer->setRegistrationAddress($customer->getRegistrationAddress()); // If 'registrationAddress' exists, else CreditCard -> Address1
         $buyer->setIp($this->getClientIp());
-        $buyer->setCity($card->getCity());
-        $buyer->setCountry($card->getCountry());
-        ($card->getPostcode() !== null) ? $buyer->setZipCode($card->getPostcode()) : null; // PostCode is optional
-        $buyer->setZipCode($card->getBillingPostcode());
+        $buyer->setCity($customer->getClientCity());
+        $buyer->setCountry($customer->getClientCountry());
+        ($customer->getPostcode() !== null) ? $buyer->setZipCode($customer->getPostcode()) : null; // PostCode is optional
         $request->setBuyer($buyer);
 
         $shippingAddress = new Address();

@@ -110,7 +110,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('customer', $value);
     }
 
-    public function getCustomer()
+    /**
+     * @return Customer
+     */
+    public function getCustomer(): Customer
     {
         return $this->getParameter('customer');
     }
