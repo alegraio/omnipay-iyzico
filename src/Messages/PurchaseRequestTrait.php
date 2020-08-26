@@ -9,6 +9,7 @@ use Iyzipay\Model\PaymentCard;
 use Iyzipay\Request\CreatePaymentRequest;
 use Omnipay\Common\CreditCard;
 use Omnipay\Common\ItemBag;
+use Omnipay\Iyzico\Customer;
 use Omnipay\Iyzico\IyzicoItem;
 use Omnipay\Iyzico\IyzicoItemBag;
 
@@ -31,6 +32,7 @@ trait PurchaseRequestTrait
     {
         /*  @var $card CreditCard */
         $card = $this->getCard();
+        /** @var  $customer Customer*/
         $customer = $this->getCustomer();
         $request = new CreatePaymentRequest();
         $request->setLocale($this->getLocale());

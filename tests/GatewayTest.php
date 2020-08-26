@@ -95,6 +95,17 @@ class GatewayTest extends GatewayTestCase
 
         ];
 
+        $customer = [
+            'clientId' => '23645',
+            'clientName' => 'John',
+            'clientSurName' => 'Doe',
+            'clientCity' => 'Istanbul',
+            'clientCountry' => 'Turkey',
+            'identityNumber' => '11111111111',
+            'clientAddress' => 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
+            'clientEmail' => 'mail@mail.com'
+        ];
+
 
         $items = [
             [
@@ -122,11 +133,11 @@ class GatewayTest extends GatewayTestCase
 
         $this->parameters = [
             'locale' => Locale::TR,
-            // 'force3ds' => '0',
+            'force3ds' => '0',
             // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
             'returnUrl' => 'www.callback.com',
             // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'returnUrl' parameter must be in data of Request
-            'price' => '1',
+            'amount' => '1',
             'paidPrice' => '1.2',
             'currency' => Currency::TL,
             'installment' => 1,
@@ -137,10 +148,8 @@ class GatewayTest extends GatewayTestCase
             'paymentGroup' => PaymentGroup::PRODUCT,
             // Optional
             'card' => $paymentCard,
+            'customer' => $customer,
             'registerCard' => '0',
-            // Optional
-            'buyerId' => 'mail@mail.com',
-            'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.13',
             'items' => $basketItems
 
@@ -149,6 +158,7 @@ class GatewayTest extends GatewayTestCase
         /** @var PurchaseResponse $response */
         try {
             $response = $this->gateway->purchase($this->parameters)->send();
+            $transactionReference = $response->getTransactionReference();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -207,6 +217,18 @@ class GatewayTest extends GatewayTestCase
         ];
 
 
+
+        $customer = [
+            'clientId' => '23645',
+            'clientName' => 'John',
+            'clientSurName' => 'Doe',
+            'clientCity' => 'Istanbul',
+            'clientCountry' => 'Turkey',
+            'identityNumber' => '11111111111',
+            'clientAddress' => 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
+            'clientEmail' => 'mail@mail.com'
+        ];
+
         $items = [
             [
                 'id' => 'product1',
@@ -237,7 +259,7 @@ class GatewayTest extends GatewayTestCase
             // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
             'returnUrl' => 'www.callback.com',
             // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
-            'price' => '1',
+            'amount' => '1',
             'paidPrice' => '1.2',
             'currency' => Currency::TL,
             'installment' => 1,
@@ -248,10 +270,8 @@ class GatewayTest extends GatewayTestCase
             'paymentGroup' => PaymentGroup::PRODUCT,
             // Optional
             'card' => $paymentCard,
+            'customer' => $customer,
             'registerCard' => '0',
-            // Optional
-            'buyerId' => '123123123',
-            'identityNumber' => '11111111111',
             'clientIp' => '176.157.78.56',
             'items' => $basketItems
 
