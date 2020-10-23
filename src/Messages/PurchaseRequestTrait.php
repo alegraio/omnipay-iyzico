@@ -146,9 +146,14 @@ trait PurchaseRequestTrait
         return '';
     }
 
+    public function setConversationId($value): void
+    {
+        $this->setParameter('conversationId', $value);
+    }
+
     private function getConversationId(): string
     {
-        return $this->getParameter('paymentId') ?? '';
+        return $this->getParameter('conversationId') ?? '';
     }
 
     private function getPaidPrice()
