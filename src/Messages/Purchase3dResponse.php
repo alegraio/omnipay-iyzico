@@ -16,7 +16,7 @@ class Purchase3dResponse extends AbstractResponse
 
     public function isRedirect(): bool
     {
-        return true;
+        return $this->isSuccessful();
     }
 
     /**
