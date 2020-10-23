@@ -4,10 +4,11 @@ namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\InstallmentInfo;
 use Iyzipay\Request\RetrieveInstallmentInfoRequest;
-use Omnipay\Iyzico\Helper\IzyicoHelper;
 
 class InstallmentInfoRequest extends AbstractRequest
 {
+    use PurchaseRequestTrait;
+
     public function setBinNumber($binNumber): void
     {
         $this->setParameter('binNumber', $binNumber);
@@ -28,19 +29,6 @@ class InstallmentInfoRequest extends AbstractRequest
         return $this->getParameter('price');
     }
 
-    public function buildTransactionID()
-    {
-        $data = array(
-            'locale' => $this->getLocale(),
-            'binNumber' => $this->getBinNumber(),
-            'price' => $this->getPrice(),
-            'id' => IzyicoHelper::createUniqueID(),
-            'timestamp' => date('YmdHis')
-        );
-        $data = serialize($data);
-        return hash_hmac('sha1', $data, $this->getSecretKey());
-    }
-
     /**
      * @inheritDoc
      */
@@ -49,7 +37,7 @@ class InstallmentInfoRequest extends AbstractRequest
 
         $request = new RetrieveInstallmentInfoRequest();
         $request->setLocale($this->getLocale());
-        $request->setConversationId($this->buildTransactionID());
+        $request->setConversationId($this->getConversationId());
         $request->setBinNumber($this->getBinNumber());
         $request->setPrice($this->getPrice());
 
