@@ -56,7 +56,7 @@ class GatewayTest extends GatewayTestCase
 
         /** @var RefundResponse $response */
         $response = $this->gateway->refund($this->parameters)->send();
-        $this->assertTrue($response->isSuccessful());
+        self::assertTrue($response->isSuccessful());
     }
 
     public function testAuthorize(): void
@@ -134,6 +134,7 @@ class GatewayTest extends GatewayTestCase
         $this->parameters = [
             'locale' => Locale::TR,
             'force3ds' => '0',
+            'conversationId' => '123123123',
             // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
             'returnUrl' => 'www.callback.com',
             // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'returnUrl' parameter must be in data of Request
@@ -162,7 +163,7 @@ class GatewayTest extends GatewayTestCase
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-        $this->assertTrue($response->isSuccessful());
+        self::assertTrue($response->isSuccessful());
         // $this->assertArrayHasKey('orderId', $response->getRedirectData());
     }
 
@@ -177,7 +178,7 @@ class GatewayTest extends GatewayTestCase
 
         /** @var CompletePurchaseResponse $response */
         $response = $this->gateway->completePurchase($this->parameters)->send();
-        $this->assertTrue($response->isSuccessful());
+        self::assertTrue($response->isSuccessful());
     }
 
     public function testCreateCard(): void
@@ -215,7 +216,6 @@ class GatewayTest extends GatewayTestCase
             'shippingAddress1' => 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
 
         ];
-
 
 
         $customer = [
@@ -256,6 +256,7 @@ class GatewayTest extends GatewayTestCase
         $this->parameters = [
             'locale' => Locale::TR,
             'force3ds' => '1',
+            'conversationId' => '123123123',
             // '0' -> Purchase, '1' -> Purchase 3d, 'auto' -> Firstly Checks whether the credit card forces 3d payment, then make request for Purchase or 3d Purchase
             'returnUrl' => 'www.callback.com',
             // When force3ds is '1' or 'auto', Request will be 3d Purchase. So 'callbackUrl' parameter must be in data of Request
@@ -286,8 +287,8 @@ class GatewayTest extends GatewayTestCase
         // $redirectData = $response->getRedirectData();
         // $redirectUrl = $response->getRedirectUrl();
         // $threeDHtmlContent = $response->getThreeDHtmlContent();
-        $this->assertTrue($response->isSuccessful());
-        $this->assertArrayHasKey('orderId', $response->getRedirectData());
+        self::assertTrue($response->isSuccessful());
+        self::assertArrayHasKey('orderId', $response->getRedirectData());
     }
 
     public function testPurchaseInfo(): void
@@ -298,7 +299,7 @@ class GatewayTest extends GatewayTestCase
 
         /** @var PurchaseInfoResponse $response */
         $response = $this->gateway->purchaseInfo($this->parameters)->send();
-        $this->assertTrue($response->isSuccessful());
+        self::assertTrue($response->isSuccessful());
     }
 
 
@@ -311,12 +312,13 @@ class GatewayTest extends GatewayTestCase
     {
         $this->parameters = [
             'locale' => Locale::TR,
+            'conversationId' => '123123123',
             'cardUserKey' => 'card user key'
         ];
 
         /** @var CardListResponse $response */
         $response = $this->gateway->getCardList($this->parameters)->send();
-        $this->assertTrue($response->isSuccessful());
+        self::assertTrue($response->isSuccessful());
     }
 
     public function testCancelPurchase(): void
@@ -328,20 +330,21 @@ class GatewayTest extends GatewayTestCase
 
         /** @var CancelPurchaseResponse $response */
         $response = $this->gateway->cancelPurchase($this->parameters)->send();
-        $this->assertTrue($response->isSuccessful());
+        self::assertTrue($response->isSuccessful());
     }
 
     public function testInstallmentInfo(): void
     {
         $this->parameters = [
             'locale' => Locale::TR,
+            'conversationId' => '123123123123',
             'binNumber' => '552608',
             'price' => 100
         ];
 
         /** @var InstallmentInfoResponse $response */
         $response = $this->gateway->installmentInfo($this->parameters)->send();
-        $this->assertTrue($response->isSuccessful());
+        self::assertTrue($response->isSuccessful());
     }
 
     public function testCallBackUrl(): void
@@ -365,7 +368,7 @@ class GatewayTest extends GatewayTestCase
 
             /** @var CompletePurchaseResponse $response */
             $response = $this->gateway->completePurchase($this->parameters)->send();
-            $this->assertTrue($response->isSuccessful());
+            self::assertTrue($response->isSuccessful());
         }
     }
 }
