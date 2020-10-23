@@ -207,7 +207,6 @@ class IyzicoGateway extends AbstractGateway
                     $cardNumber)); // drop non numeric characters and trim spaces
                 $installmentInfoParameters = [
                     'locale' => Locale::TR,
-                    'conversationId' => $parameters['conversationId'] ?? null,
                     'binNumber' => substr($cardNumber, 0, 6),
                     'price' => 999
                 ];
