@@ -20,6 +20,9 @@ class Purchase3dRequest extends AbstractRequest
     {
         # make request
         $options = $this->getOptions();
-        return new Purchase3dResponse($this, ThreedsInitialize::create($data, $options));
+        $response = new Purchase3dResponse($this, ThreedsInitialize::create($data, $options));
+        $response->setServiceRequestParams($data);
+
+        return $response;
     }
 }

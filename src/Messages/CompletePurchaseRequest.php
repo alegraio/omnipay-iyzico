@@ -30,7 +30,10 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         # make request
         $options = $this->getOptions();
-        return new CompletePurchaseResponse($this, ThreedsPayment::create($data, $options));
+        $response = new CompletePurchaseResponse($this, ThreedsPayment::create($data, $options));
+        $response->setServiceRequestParams($data);
+
+        return $response;
     }
 
     public function getConversationId()

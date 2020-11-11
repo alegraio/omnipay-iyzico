@@ -38,7 +38,9 @@ class CardListRequest extends AbstractRequest
     public function sendData($data)
     {
         $options = $this->getOptions();
-        return new CardListResponse($this, CardList::retrieve($data, $options));
-    }
+        $response = new CardListResponse($this, CardList::retrieve($data, $options));
+        $response->setServiceRequestParams($data);
 
+        return $response;
+    }
 }

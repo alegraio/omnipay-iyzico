@@ -15,6 +15,9 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
     /** @var IyzipayResource */
     private $response;
 
+    /** @var array */
+    public $serviceRequestParams;
+
     public function __construct(RequestInterface $request, IyzipayResource $data)
     {
         parent::__construct($request, $data);
@@ -86,4 +89,19 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
         return 'POST';
     }
 
+    /**
+     * @return array
+     */
+    public function getServiceRequestParams(): array
+    {
+        return $this->serviceRequestParams;
+    }
+
+    /**
+     * @param array $serviceRequestParams
+     */
+    public function setServiceRequestParams(array $serviceRequestParams): void
+    {
+        $this->serviceRequestParams = $serviceRequestParams;
+    }
 }

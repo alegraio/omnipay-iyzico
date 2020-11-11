@@ -50,6 +50,9 @@ class InstallmentInfoRequest extends AbstractRequest
     public function sendData($data)
     {
         $options = $this->getOptions();
-        return new InstallmentInfoResponse($this, InstallmentInfo::retrieve($data, $options));
+        $response = new InstallmentInfoResponse($this, InstallmentInfo::retrieve($data, $options));
+        $response->setServiceRequestParams($data);
+
+        return $response;
     }
 }
