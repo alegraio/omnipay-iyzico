@@ -33,8 +33,8 @@ class CancelPurchaseRequest extends AbstractRequest
         try {
             $options = $this->getOptions();
             $response = new CancelPurchaseResponse($this, Cancel::create($data, $options));
-            $data = $this->transformIyzicoRequest($data);
-            $response->setServiceRequestParams($data);
+            $requestParams = $this->getRequestParams();
+            $response->setServiceRequestParams($requestParams);
 
             return $response;
         } catch (\Exception $e) {
