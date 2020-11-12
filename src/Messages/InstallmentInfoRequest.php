@@ -51,6 +51,7 @@ class InstallmentInfoRequest extends AbstractRequest
     {
         $options = $this->getOptions();
         $response = new InstallmentInfoResponse($this, InstallmentInfo::retrieve($data, $options));
+        $data = $this->transformIyzicoRequest($data);
         $response->setServiceRequestParams($data);
 
         return $response;

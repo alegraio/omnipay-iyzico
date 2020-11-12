@@ -31,6 +31,7 @@ class PurchaseInfoRequest extends AbstractRequest
         try {
             $options = $this->getOptions();
             $response = new PurchaseInfoResponse($this, Payment::retrieve($data, $options));
+            $data = $this->transformIyzicoRequest($data);
             $response->setServiceRequestParams($data);
 
             return $response;

@@ -2,6 +2,7 @@
 
 namespace Omnipay\Iyzico\Messages;
 
+use Iyzipay\JsonConvertible;
 use Iyzipay\Model\Locale;
 use Iyzipay\Options;
 use Omnipay\Iyzico\Customer;
@@ -116,5 +117,18 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function getCustomer(): Customer
     {
         return $this->getParameter('customer');
+    }
+
+    /**
+     * @param JsonConvertible $request
+     * @return array
+     */
+    protected function transformIyzicoRequest(JsonConvertible $request): array
+    {
+        if (method_exists($request, 'getJsonObject')) {
+            return $request->getJsonObject();
+        }
+
+        return [];
     }
 }

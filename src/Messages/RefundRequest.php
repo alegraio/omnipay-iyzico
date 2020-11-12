@@ -40,6 +40,7 @@ class RefundRequest extends AbstractRequest
         try {
             $options = $this->getOptions();
             $response = new RefundResponse($this, Refund::create($data, $options));
+            $data = $this->transformIyzicoRequest($data);
             $response->setServiceRequestParams($data);
 
             return $response;
