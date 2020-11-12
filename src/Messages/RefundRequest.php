@@ -39,8 +39,10 @@ class RefundRequest extends AbstractRequest
     {
         try {
             $options = $this->getOptions();
+            $response = new RefundResponse($this, Refund::create($data, $options));
+            $response->setServiceRequestParams($data);
 
-            return new RefundResponse($this, Refund::create($data, $options));
+            return $response;
         } catch (Exception $e) {
             throw new InvalidResponseException(
                 'Error communicating with payment gateway: ' . $e->getMessage(),

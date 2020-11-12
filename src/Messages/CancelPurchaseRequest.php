@@ -32,8 +32,10 @@ class CancelPurchaseRequest extends AbstractRequest
     {
         try {
             $options = $this->getOptions();
+            $response = new CancelPurchaseResponse($this, Cancel::create($data, $options));
+            $response->setServiceRequestParams($data);
 
-            return new CancelPurchaseResponse($this, Cancel::create($data, $options));
+            return $response;
         } catch (\Exception $e) {
             throw new InvalidResponseException(
                 'Error communicating with payment gateway: ' . $e->getMessage(),

@@ -30,8 +30,10 @@ class PurchaseInfoRequest extends AbstractRequest
     {
         try {
             $options = $this->getOptions();
+            $response = new PurchaseInfoResponse($this, Payment::retrieve($data, $options));
+            $response->setServiceRequestParams($data);
 
-            return new PurchaseInfoResponse($this, Payment::retrieve($data, $options));
+            return $response;
         } catch (\Exception $e) {
             throw new InvalidResponseException(
                 'Error communicating with payment gateway: ' . $e->getMessage(),
