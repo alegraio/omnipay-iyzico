@@ -39,8 +39,8 @@ class CardListRequest extends AbstractRequest
     {
         $options = $this->getOptions();
         $response = new CardListResponse($this, CardList::retrieve($data, $options));
-        $data = $this->transformIyzicoRequest($data);
-        $response->setServiceRequestParams($data);
+        $requestParams = $this->getRequestParams();
+        $response->setServiceRequestParams($requestParams);
 
         return $response;
     }

@@ -16,8 +16,9 @@ class PurchaseRequest extends AbstractRequest
         # make request
         $options = $this->getOptions();
         $response = new PurchaseResponse($this, Payment::create($data, $options));
-        $data = $this->transformIyzicoRequest($data);
-        $response->setServiceRequestParams($data);
+        $requestParams = $this->getRequestParams();
+        $response->setServiceRequestParams($requestParams);
+
 
         return $response;
     }

@@ -120,10 +120,22 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
 
     /**
+     * @return array
+     */
+    protected function getRequestParams(): array
+    {
+        return [
+            'url' => $this->getBaseUrl(),
+            'data' => $this->transformIyzicoRequest($this->getData()),
+            'method' => 'POST'
+        ];
+    }
+
+    /**
      * @param JsonConvertible $request
      * @return array
      */
-    protected function transformIyzicoRequest(JsonConvertible $request): array
+    private function transformIyzicoRequest(JsonConvertible $request): array
     {
         if (method_exists($request, 'getJsonObject')) {
             return $request->getJsonObject();
@@ -131,4 +143,5 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         return [];
     }
+
 }
