@@ -8,6 +8,7 @@ use Omnipay\Common\Http\ClientInterface;
 class IyzicoHttp
 {
     protected $httpClient;
+    private $url;
 
     public function __construct(ClientInterface $httpClient)
     {
@@ -24,6 +25,7 @@ class IyzicoHttp
     public function post(string $url, array $headers, $body): string
     {
         try {
+            $this->setUrl($url);
             $request = $this->httpClient->request('POST', $url, $this->transformHeaders($headers), $body);
             return $request->getBody()->getContents();
         } catch (\Exception $e) {
@@ -32,6 +34,16 @@ class IyzicoHttp
                 $e->getCode()
             );
         }
+    }
+
+    public function setUrl(string $url)
+    {
+        $this->url = $url;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     protected function transformHeaders(array $headers): array

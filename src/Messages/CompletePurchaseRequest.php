@@ -35,6 +35,11 @@ class CompletePurchaseRequest extends AbstractRequest
         $options = $this->getOptions();
         ThreedsPayment::setHttpClient(new IyzicoHttp($this->httpClient));
         $response = new CompletePurchaseResponse($this, ThreedsPayment::create($data, $options));
+        /**
+         * @var $client IyzicoHttp
+         */
+        $client = ThreedsPayment::httpClient();
+        $this->setIyzicoUrl($client->getUrl());
         $requestParams = $this->getRequestParams();
         $response->setServiceRequestParams($requestParams);
 

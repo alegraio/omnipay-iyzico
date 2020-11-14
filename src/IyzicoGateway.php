@@ -203,8 +203,7 @@ class IyzicoGateway extends AbstractGateway
     {
         try {
             if (isset($parameters['card']['number']) && $cardNumber = $parameters['card']['number']) {
-                $cardNumber = trim(preg_replace('/[\D]/', '',
-                    $cardNumber)); // drop non numeric characters and trim spaces
+                $cardNumber = trim(preg_replace('/[\D]/', '', $cardNumber));
                 $installmentInfoParameters = [
                     'locale' => Locale::TR,
                     'binNumber' => substr($cardNumber, 0, 6),

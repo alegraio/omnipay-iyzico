@@ -14,6 +14,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest i
     protected $liveEndpoint = 'https://api.iyzipay.com';
     protected $testEndpoint = 'https://sandbox-api.iyzipay.com';
     protected $requestParams;
+    protected $iyzicoUrl;
 
     public function getOptions(): Options
     {
@@ -122,6 +123,19 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest i
         return $this->getParameter('customer');
     }
 
+    /**
+     * @param JsonConvertible $request
+     * @return array
+     */
+    public function transformIyzicoRequest(JsonConvertible $request): array
+    {
+        if (method_exists($request, 'getJsonObject')) {
+            return $request->getJsonObject();
+        }
+
+        return [];
+    }
+
     protected function setRequestParams(array $data): void
     {
         array_walk_recursive($data, [$this, 'updateValue']);
@@ -136,29 +150,20 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest i
         }
     }
 
+    protected function setIyzicoUrl(string $url): void
+    {
+        $this->iyzicoUrl = $url;
+    }
+
     /**
      * @return array
      */
     protected function getRequestParams(): array
     {
         return [
-            'url' => $this->getBaseUrl(),
+            'url' => $this->iyzicoUrl ?? $this->getBaseUrl(),
             'data' => $this->requestParams,
             'method' => 'POST'
         ];
     }
-
-    /**
-     * @param JsonConvertible $request
-     * @return array
-     */
-    public function transformIyzicoRequest(JsonConvertible $request): array
-    {
-        if (method_exists($request, 'getJsonObject')) {
-            return $request->getJsonObject();
-        }
-
-        return [];
-    }
-
 }

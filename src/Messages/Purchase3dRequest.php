@@ -23,6 +23,11 @@ class Purchase3dRequest extends AbstractRequest
         $options = $this->getOptions();
         ThreedsInitialize::setHttpClient(new IyzicoHttp($this->httpClient));
         $response = new Purchase3dResponse($this, ThreedsInitialize::create($data, $options));
+        /**
+         * @var $client IyzicoHttp
+         */
+        $client = ThreedsInitialize::httpClient();
+        $this->setIyzicoUrl($client->getUrl());
         $requestParams = $this->getRequestParams();
         $response->setServiceRequestParams($requestParams);
 

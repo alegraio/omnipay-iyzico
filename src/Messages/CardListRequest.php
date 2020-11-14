@@ -43,6 +43,11 @@ class CardListRequest extends AbstractRequest
         $options = $this->getOptions();
         CardList::setHttpClient(new IyzicoHttp($this->httpClient));
         $response = new CardListResponse($this, CardList::retrieve($data, $options));
+        /**
+         * @var $client IyzicoHttp
+         */
+        $client = CardList::httpClient();
+        $this->setIyzicoUrl($client->getUrl());
         $requestParams = $this->getRequestParams();
         $response->setServiceRequestParams($requestParams);
 

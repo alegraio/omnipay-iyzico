@@ -55,6 +55,11 @@ class InstallmentInfoRequest extends AbstractRequest
         $options = $this->getOptions();
         InstallmentInfo::setHttpClient(new IyzicoHttp($this->httpClient));
         $response = new InstallmentInfoResponse($this, InstallmentInfo::retrieve($data, $options));
+        /**
+         * @var $client IyzicoHttp
+         */
+        $client = InstallmentInfo::httpClient();
+        $this->setIyzicoUrl($client->getUrl());
         $requestParams = $this->getRequestParams();
         $response->setServiceRequestParams($requestParams);
 

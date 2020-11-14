@@ -37,6 +37,11 @@ class CancelPurchaseRequest extends AbstractRequest
             $options = $this->getOptions();
             Cancel::setHttpClient(new IyzicoHttp($this->httpClient));
             $response = new CancelPurchaseResponse($this, Cancel::create($data, $options));
+            /**
+             * @var $client IyzicoHttp
+             */
+            $client = Cancel::httpClient();
+            $this->setIyzicoUrl($client->getUrl());
             $requestParams = $this->getRequestParams();
             $response->setServiceRequestParams($requestParams);
 

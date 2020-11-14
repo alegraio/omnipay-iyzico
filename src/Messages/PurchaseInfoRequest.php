@@ -35,6 +35,11 @@ class PurchaseInfoRequest extends AbstractRequest
             $options = $this->getOptions();
             Payment::setHttpClient(new IyzicoHttp($this->httpClient));
             $response = new PurchaseInfoResponse($this, Payment::retrieve($data, $options));
+            /**
+             * @var $client IyzicoHttp
+             */
+            $client = Payment::httpClient();
+            $this->setIyzicoUrl($client->getUrl());
             $requestParams = $this->getRequestParams();
             $response->setServiceRequestParams($requestParams);
 

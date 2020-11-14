@@ -45,6 +45,11 @@ class RefundRequest extends AbstractRequest
             $options = $this->getOptions();
             Refund::setHttpClient(new IyzicoHttp($this->httpClient));
             $response = new RefundResponse($this, Refund::create($data, $options));
+            /**
+             * @var $client IyzicoHttp
+             */
+            $client = Refund::httpClient();
+            $this->setIyzicoUrl($client->getUrl());
             $requestParams = $this->getRequestParams();
             $response->setServiceRequestParams($requestParams);
 
