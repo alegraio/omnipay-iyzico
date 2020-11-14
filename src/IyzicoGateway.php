@@ -12,8 +12,8 @@ use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Iyzico\Messages\Purchase3dRequest;
 use Omnipay\Iyzico\Messages\PurchaseRequest;
-use Omnipay\Iyzico\Messages\Purchase3DRequestTest;
 use Omnipay\Iyzico\Messages\CompletePurchaseRequest;
 use Omnipay\Iyzico\Messages\PurchaseInfoRequest;
 use Omnipay\Iyzico\Messages\RefundRequest;
@@ -101,7 +101,7 @@ class IyzicoGateway extends AbstractGateway
             case '1':
                 return $this->purchase3d($parameters);
             default:
-                throw new Exception("The parameter -> 'force3ds' should be '0','1' or 'auto'");
+                throw new \RuntimeException("The parameter -> 'force3ds' should be '0','1' or 'auto'");
         }
     }
 
@@ -111,7 +111,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function purchase3d(array $parameters = array()): AbstractRequest
     {
-        return $this->createRequest(Purchase3DRequestTest::class, $parameters);
+        return $this->createRequest(Purchase3dRequest::class, $parameters);
     }
 
     /**
@@ -203,7 +203,7 @@ class IyzicoGateway extends AbstractGateway
     {
         try {
             if (isset($parameters['card']['number']) && $cardNumber = $parameters['card']['number']) {
-                $cardNumber = trim(preg_replace('/[^0-9]/', '',
+                $cardNumber = trim(preg_replace('/[\D]/', '',
                     $cardNumber)); // drop non numeric characters and trim spaces
                 $installmentInfoParameters = [
                     'locale' => Locale::TR,
