@@ -20,6 +20,8 @@ class CancelPurchaseRequest extends AbstractRequest
         $request->setPaymentId($this->getPaymentId());
         $request->setIp($this->getClientIp());
 
+        $this->setRequestParams($this->transformIyzicoRequest($request));
+
         return $request;
     }
 
@@ -43,5 +45,10 @@ class CancelPurchaseRequest extends AbstractRequest
                 $e->getCode()
             );
         }
+    }
+
+    public function getSensitiveData(): array
+    {
+        return [];
     }
 }

@@ -32,7 +32,7 @@ trait PurchaseRequestTrait
     {
         /*  @var $card CreditCard */
         $card = $this->getCard();
-        /** @var  $customer Customer*/
+        /** @var  $customer Customer */
         $customer = $this->getCustomer();
         $request = new CreatePaymentRequest();
         $request->setLocale($this->getLocale());
@@ -90,6 +90,8 @@ trait PurchaseRequestTrait
         $basketItems = $this->getBasketItems();
 
         $request->setBasketItems($basketItems);
+
+        $this->setRequestParams($this->transformIyzicoRequest($request));
 
         return $request;
     }
@@ -151,6 +153,11 @@ trait PurchaseRequestTrait
     public function setConversationId($value): void
     {
         $this->setParameter('conversationId', $value);
+    }
+
+    public function getSensitiveData(): array
+    {
+        return ['cardHolderName', 'cardNumber', 'expireYear', 'expireMonth', 'cvc', 'registerCard', 'cardAlias'];
     }
 
     private function getConversationId(): string

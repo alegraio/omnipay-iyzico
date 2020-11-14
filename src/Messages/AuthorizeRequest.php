@@ -2,7 +2,7 @@
 
 namespace Omnipay\Iyzico\Messages;
 
-class AuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
+class AuthorizeRequest extends AbstractRequest
 {
 
     /**
@@ -19,5 +19,10 @@ class AuthorizeRequest extends \Omnipay\Common\Message\AbstractRequest
     public function sendData($data)
     {
         // TODO: Implement sendData() method.
+    }
+
+    public function getSensitiveData(): array
+    {
+        return [];
     }
 }

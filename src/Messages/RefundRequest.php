@@ -25,6 +25,8 @@ class RefundRequest extends AbstractRequest
         $request->setIp($this->getClientIp());
         $request->setPrice($this->getAmount());
 
+        $this->setRequestParams($this->transformIyzicoRequest($request));
+
         return $request;
     }
 
@@ -70,5 +72,10 @@ class RefundRequest extends AbstractRequest
     public function getPaymentTransactionId(): string
     {
         return $this->getParameter('paymentTransactionId');
+    }
+
+    public function getSensitiveData(): array
+    {
+        return [];
     }
 }

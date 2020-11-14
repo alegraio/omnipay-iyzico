@@ -29,6 +29,8 @@ class CardListRequest extends AbstractRequest
         $request->setConversationId($this->getConversationId());
         $request->setCardUserKey($this->getCardUserKey());
 
+        $this->setRequestParams($this->transformIyzicoRequest($request));
+
         return $request;
     }
 
@@ -43,5 +45,10 @@ class CardListRequest extends AbstractRequest
         $response->setServiceRequestParams($requestParams);
 
         return $response;
+    }
+
+    public function getSensitiveData(): array
+    {
+        return [];
     }
 }

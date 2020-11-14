@@ -20,6 +20,8 @@ class CompletePurchaseRequest extends AbstractRequest
         ($this->getConversationId() !== null) ? $request->setConversationId($this->getConversationId()) : null; // ConversationId is optional
         ($this->getConversationData() !== null) ? $request->setConversationData($this->getConversationData()) : null; // ConversationData is optional
 
+        $this->setRequestParams($this->transformIyzicoRequest($request));
+
         return $request;
     }
 
@@ -55,5 +57,10 @@ class CompletePurchaseRequest extends AbstractRequest
     public function setConversationData($conversationData): void
     {
         $this->setParameter('conversationData', $conversationData);
+    }
+
+    public function getSensitiveData(): array
+    {
+        return [];
     }
 }

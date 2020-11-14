@@ -6,11 +6,14 @@ use Iyzipay\JsonConvertible;
 use Iyzipay\Model\Locale;
 use Iyzipay\Options;
 use Omnipay\Iyzico\Customer;
+use Omnipay\Iyzico\Helper\IzyicoHelper;
+use Omnipay\Iyzico\IyzicoRequestInterface;
 
-abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
+abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest implements IyzicoRequestInterface
 {
     protected $liveEndpoint = 'https://api.iyzipay.com';
     protected $testEndpoint = 'https://sandbox-api.iyzipay.com';
+    protected $requestParams;
 
     public function getOptions(): Options
     {
@@ -119,6 +122,20 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->getParameter('customer');
     }
 
+    protected function setRequestParams(array $data): void
+    {
+        array_walk_recursive($data, [$this, 'updateValue']);
+        $this->requestParams = $data;
+    }
+
+    protected function updateValue(&$data, $key): void
+    {
+        $sensitiveData = $this->getSensitiveData();
+        if (\in_array($key, $sensitiveData, true)) {
+            $data = IzyicoHelper::mask($data);
+        }
+    }
+
     /**
      * @return array
      */
@@ -126,7 +143,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return [
             'url' => $this->getBaseUrl(),
-            'data' => $this->transformIyzicoRequest($this->getData()),
+            'data' => $this->requestParams,
             'method' => 'POST'
         ];
     }
@@ -135,7 +152,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * @param JsonConvertible $request
      * @return array
      */
-    private function transformIyzicoRequest(JsonConvertible $request): array
+    protected function transformIyzicoRequest(JsonConvertible $request): array
     {
         if (method_exists($request, 'getJsonObject')) {
             return $request->getJsonObject();

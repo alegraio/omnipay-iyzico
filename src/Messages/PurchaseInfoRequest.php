@@ -18,6 +18,8 @@ class PurchaseInfoRequest extends AbstractRequest
         $request->setLocale($this->getLocale());
         $request->setPaymentId($this->getPaymentId());
 
+        $this->setRequestParams($this->transformIyzicoRequest($request));
+
         return $request;
     }
 
@@ -41,5 +43,10 @@ class PurchaseInfoRequest extends AbstractRequest
                 $e->getCode()
             );
         }
+    }
+
+    public function getSensitiveData(): array
+    {
+        return [];
     }
 }

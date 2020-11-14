@@ -1,7 +1,7 @@
 <?php
 namespace Omnipay\Iyzico\Messages;
 
-class DeleteCardRequest extends \Omnipay\Common\Message\AbstractRequest
+class DeleteCardRequest extends AbstractRequest
 {
 
     /**
@@ -18,5 +18,10 @@ class DeleteCardRequest extends \Omnipay\Common\Message\AbstractRequest
     public function sendData($data)
     {
         // TODO: Implement sendData() method.
+    }
+
+    public function getSensitiveData(): array
+    {
+        return [];
     }
 }

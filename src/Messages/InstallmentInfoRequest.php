@@ -41,6 +41,8 @@ class InstallmentInfoRequest extends AbstractRequest
         $request->setBinNumber($this->getBinNumber());
         $request->setPrice($this->getPrice());
 
+        $this->setRequestParams($this->transformIyzicoRequest($request));
+
         return $request;
     }
 
@@ -55,5 +57,10 @@ class InstallmentInfoRequest extends AbstractRequest
         $response->setServiceRequestParams($requestParams);
 
         return $response;
+    }
+
+    public function getSensitiveData(): array
+    {
+        return ['binNumber'];
     }
 }
