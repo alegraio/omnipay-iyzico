@@ -13,7 +13,7 @@ use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Iyzico\Messages\PurchaseRequest;
-use Omnipay\Iyzico\Messages\Purchase3dRequest;
+use Omnipay\Iyzico\Messages\Purchase3DRequestTest;
 use Omnipay\Iyzico\Messages\CompletePurchaseRequest;
 use Omnipay\Iyzico\Messages\PurchaseInfoRequest;
 use Omnipay\Iyzico\Messages\RefundRequest;
@@ -111,7 +111,7 @@ class IyzicoGateway extends AbstractGateway
      */
     public function purchase3d(array $parameters = array()): AbstractRequest
     {
-        return $this->createRequest(Purchase3dRequest::class, $parameters);
+        return $this->createRequest(Purchase3DRequestTest::class, $parameters);
     }
 
     /**

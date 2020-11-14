@@ -6,6 +6,7 @@ use Omnipay\Common\Exception\InvalidResponseException;
 use Iyzipay\Model\Payment;
 use Iyzipay\Request\RetrievePaymentRequest;
 use Omnipay\Common\Message\ResponseInterface;
+use Omnipay\Iyzico\IyzicoHttp;
 
 class PurchaseInfoRequest extends AbstractRequest
 {
@@ -32,6 +33,7 @@ class PurchaseInfoRequest extends AbstractRequest
     {
         try {
             $options = $this->getOptions();
+            Payment::setHttpClient(new IyzicoHttp($this->httpClient));
             $response = new PurchaseInfoResponse($this, Payment::retrieve($data, $options));
             $requestParams = $this->getRequestParams();
             $response->setServiceRequestParams($requestParams);

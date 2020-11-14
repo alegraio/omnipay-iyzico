@@ -4,6 +4,7 @@ namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\ThreedsPayment;
 use Iyzipay\Request\CreateThreedsPaymentRequest;
+use Omnipay\Iyzico\IyzicoHttp;
 
 class CompletePurchaseRequest extends AbstractRequest
 {
@@ -32,6 +33,7 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         # make request
         $options = $this->getOptions();
+        ThreedsPayment::setHttpClient(new IyzicoHttp($this->httpClient));
         $response = new CompletePurchaseResponse($this, ThreedsPayment::create($data, $options));
         $requestParams = $this->getRequestParams();
         $response->setServiceRequestParams($requestParams);

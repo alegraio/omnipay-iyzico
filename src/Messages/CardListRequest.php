@@ -4,6 +4,7 @@ namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\CardList;
 use Iyzipay\Request\RetrieveCardListRequest;
+use Omnipay\Iyzico\IyzicoHttp;
 
 class CardListRequest extends AbstractRequest
 {
@@ -40,6 +41,7 @@ class CardListRequest extends AbstractRequest
     public function sendData($data)
     {
         $options = $this->getOptions();
+        CardList::setHttpClient(new IyzicoHttp($this->httpClient));
         $response = new CardListResponse($this, CardList::retrieve($data, $options));
         $requestParams = $this->getRequestParams();
         $response->setServiceRequestParams($requestParams);

@@ -6,6 +6,7 @@ use Iyzipay\Model\Cancel;
 use Iyzipay\Request\CreateCancelRequest;
 use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Common\Message\ResponseInterface;
+use Omnipay\Iyzico\IyzicoHttp;
 
 class CancelPurchaseRequest extends AbstractRequest
 {
@@ -34,6 +35,7 @@ class CancelPurchaseRequest extends AbstractRequest
     {
         try {
             $options = $this->getOptions();
+            Cancel::setHttpClient(new IyzicoHttp($this->httpClient));
             $response = new CancelPurchaseResponse($this, Cancel::create($data, $options));
             $requestParams = $this->getRequestParams();
             $response->setServiceRequestParams($requestParams);

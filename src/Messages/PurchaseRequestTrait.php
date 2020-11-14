@@ -145,7 +145,7 @@ trait PurchaseRequestTrait
         $this->setParameter('registerCard', $value);
     }
 
-    public function getCallBackUrl(): string
+    public function getCallBackUrl(): ?string
     {
         return '';
     }

@@ -9,6 +9,11 @@
       "Omnipay\\Iyzico\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "OmnipayTest\\Iyzico\\": "tests/"
+    }
+  },
   "require": {
     "omnipay/common": "^3",
     "iyzico/iyzipay-php": "~2.0",

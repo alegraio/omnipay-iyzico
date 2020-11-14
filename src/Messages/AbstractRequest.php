@@ -152,7 +152,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest i
      * @param JsonConvertible $request
      * @return array
      */
-    protected function transformIyzicoRequest(JsonConvertible $request): array
+    public function transformIyzicoRequest(JsonConvertible $request): array
     {
         if (method_exists($request, 'getJsonObject')) {
             return $request->getJsonObject();

@@ -4,6 +4,7 @@ namespace Omnipay\Iyzico\Messages;
 
 use Iyzipay\Model\InstallmentInfo;
 use Iyzipay\Request\RetrieveInstallmentInfoRequest;
+use Omnipay\Iyzico\IyzicoHttp;
 
 class InstallmentInfoRequest extends AbstractRequest
 {
@@ -52,6 +53,7 @@ class InstallmentInfoRequest extends AbstractRequest
     public function sendData($data)
     {
         $options = $this->getOptions();
+        InstallmentInfo::setHttpClient(new IyzicoHttp($this->httpClient));
         $response = new InstallmentInfoResponse($this, InstallmentInfo::retrieve($data, $options));
         $requestParams = $this->getRequestParams();
         $response->setServiceRequestParams($requestParams);

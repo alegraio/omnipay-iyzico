@@ -3,10 +3,12 @@
 namespace Omnipay\Iyzico\Messages;
 
 use Exception;
+use Iyzipay\Model\Payment;
 use Iyzipay\Model\Refund;
 use Iyzipay\Request\CreateRefundRequest;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Iyzico\IyzicoHttp;
 
 class RefundRequest extends AbstractRequest
 {
@@ -41,6 +43,7 @@ class RefundRequest extends AbstractRequest
     {
         try {
             $options = $this->getOptions();
+            Refund::setHttpClient(new IyzicoHttp($this->httpClient));
             $response = new RefundResponse($this, Refund::create($data, $options));
             $requestParams = $this->getRequestParams();
             $response->setServiceRequestParams($requestParams);
