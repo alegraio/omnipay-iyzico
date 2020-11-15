@@ -49,6 +49,7 @@ class CancelPurchaseRequestTest extends IyzicoTestCase
         self::assertFalse($response->isSuccessful());
         self::assertSame('13292709', $response->getTransactionReference());
         self::assertSame('https://sandbox-api.iyzipay.com/payment/cancel', $this->request->getIyzicoUrl());
-        self::assertSame('5086 : Üye işyerine ait ödeme kaydı bulunamadı', $response->getMessage());
+        self::assertSame('5086', $response->getCode());
+        self::assertSame('Üye işyerine ait ödeme kaydı bulunamadı', $response->getMessage());
     }
 }

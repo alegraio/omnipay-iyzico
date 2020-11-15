@@ -54,6 +54,7 @@ class PurchaseRequestTest extends IyzicoTestCase
         self::assertFalse($response->isRedirect());
         self::assertNull($response->getTransactionReference());
         self::assertSame('https://sandbox-api.iyzipay.com/payment/auth', $this->request->getIyzicoUrl());
-        self::assertSame('12 : Kart numarası geçersizdir', $response->getMessage());
+        self::assertSame('12', $response->getCode());
+        self::assertSame('Kart numarası geçersizdir', $response->getMessage());
     }
 }

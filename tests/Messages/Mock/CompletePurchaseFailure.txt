@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 11 Nov 2020 18:25:28 GMT
+Content-Type: application/json;charset=utf-8
+Content-Length: 170
+Connection: keep-alive
+Cache-Control: no-cache, no-store
+Request-Id: req_8PDHeZazN2LwML
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 300
+
+{
+    "status": "failure",
+    "errorCode": "5115",
+    "errorMessage": "Bu ödemenin durumu 3dsecure için geçerli değil",
+    "locale": "tr",
+    "systemTime": 1605452439898,
+    "conversationId": "122511"
+}

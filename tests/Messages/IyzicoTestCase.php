@@ -65,6 +65,15 @@ class IyzicoTestCase extends TestCase
         return $this->provideMergedParams($params);
     }
 
+    protected function getCompletePurchaseParams(): array
+    {
+        $params = [
+            'paymentId' => '13292709',
+        ];
+
+        return $this->provideMergedParams($params);
+    }
+
     private function getDefaultOptions(): array
     {
         return [

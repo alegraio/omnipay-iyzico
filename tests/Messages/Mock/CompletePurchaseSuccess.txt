@@ -1,0 +1,131 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 11 Nov 2020 18:25:28 GMT
+Content-Type: application/json;charset=utf-8
+Content-Length: 3012
+Connection: keep-alive
+Cache-Control: no-cache, no-store
+Request-Id: req_8PDHeZazN2LwML
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 300
+
+{
+    "status": "success",
+    "locale": "tr",
+    "systemTime": 1605451407222,
+    "conversationId": "212519",
+    "price": 3,
+    "paidPrice": 3,
+    "installment": 1,
+    "paymentId": "12568440",
+    "fraudStatus": 1,
+    "merchantCommissionRate": 0,
+    "merchantCommissionRateAmount": 0,
+    "iyziCommissionRateAmount": 0.12,
+    "iyziCommissionFee": 0.25,
+    "cardType": "DEBIT_CARD",
+    "cardAssociation": "MASTER_CARD",
+    "cardFamily": "Neo",
+    "binNumber": "589004",
+    "lastFourDigits": "0016",
+    "currency": "TRY",
+    "itemTransactions": [
+        {
+            "itemId": "3453645",
+            "paymentTransactionId": "13293085",
+            "transactionStatus": 2,
+            "price": 1,
+            "paidPrice": 1,
+            "merchantCommissionRate": 0,
+            "merchantCommissionRateAmount": 0,
+            "iyziCommissionRateAmount": 0.04,
+            "iyziCommissionFee": 0.08333333,
+            "blockageRate": 0,
+            "blockageRateAmountMerchant": 0,
+            "blockageRateAmountSubMerchant": 0,
+            "blockageResolvedDate": "2020-11-23 00:00:00",
+            "subMerchantPrice": 0,
+            "subMerchantPayoutRate": 0,
+            "subMerchantPayoutAmount": 0,
+            "merchantPayoutAmount": 0.87666667,
+            "convertedPayout": {
+                "paidPrice": 1,
+                "iyziCommissionRateAmount": 0.04,
+                "iyziCommissionFee": 0.08333333,
+                "blockageRateAmountMerchant": 0,
+                "blockageRateAmountSubMerchant": 0,
+                "subMerchantPayoutAmount": 0,
+                "merchantPayoutAmount": 0.87666667,
+                "iyziConversionRate": 0,
+                "iyziConversionRateAmount": 0,
+                "currency": "TRY"
+            }
+        },
+        {
+            "itemId": "3453642",
+            "paymentTransactionId": "13293086",
+            "transactionStatus": 2,
+            "price": 1,
+            "paidPrice": 1,
+            "merchantCommissionRate": 0,
+            "merchantCommissionRateAmount": 0,
+            "iyziCommissionRateAmount": 0.04,
+            "iyziCommissionFee": 0.08333333,
+            "blockageRate": 0,
+            "blockageRateAmountMerchant": 0,
+            "blockageRateAmountSubMerchant": 0,
+            "blockageResolvedDate": "2020-11-23 00:00:00",
+            "subMerchantPrice": 0,
+            "subMerchantPayoutRate": 0,
+            "subMerchantPayoutAmount": 0,
+            "merchantPayoutAmount": 0.87666667,
+            "convertedPayout": {
+                "paidPrice": 1,
+                "iyziCommissionRateAmount": 0.04,
+                "iyziCommissionFee": 0.08333333,
+                "blockageRateAmountMerchant": 0,
+                "blockageRateAmountSubMerchant": 0,
+                "subMerchantPayoutAmount": 0,
+                "merchantPayoutAmount": 0.87666667,
+                "iyziConversionRate": 0,
+                "iyziConversionRateAmount": 0,
+                "currency": "TRY"
+            }
+        },
+        {
+            "itemId": "3453641",
+            "paymentTransactionId": "13293087",
+            "transactionStatus": 2,
+            "price": 1,
+            "paidPrice": 1,
+            "merchantCommissionRate": 0,
+            "merchantCommissionRateAmount": 0,
+            "iyziCommissionRateAmount": 0.04,
+            "iyziCommissionFee": 0.08333333,
+            "blockageRate": 0,
+            "blockageRateAmountMerchant": 0,
+            "blockageRateAmountSubMerchant": 0,
+            "blockageResolvedDate": "2020-11-23 00:00:00",
+            "subMerchantPrice": 0,
+            "subMerchantPayoutRate": 0,
+            "subMerchantPayoutAmount": 0,
+            "merchantPayoutAmount": 0.87666667,
+            "convertedPayout": {
+                "paidPrice": 1,
+                "iyziCommissionRateAmount": 0.04,
+                "iyziCommissionFee": 0.08333333,
+                "blockageRateAmountMerchant": 0,
+                "blockageRateAmountSubMerchant": 0,
+                "subMerchantPayoutAmount": 0,
+                "merchantPayoutAmount": 0.87666667,
+                "iyziConversionRate": 0,
+                "iyziConversionRateAmount": 0,
+                "currency": "TRY"
+            }
+        }
+    ],
+    "authCode": "316301",
+    "phase": "AUTH",
+    "mdStatus": 1,
+    "hostReference": "mock00027iyzihostrfn"
+}

@@ -79,10 +79,15 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
     public function getMessage(): ?string
     {
         if (!empty($this->response->getErrorMessage())) {
-            return $this->response->getErrorCode() . ' : ' . $this->response->getErrorMessage();
+            return $this->response->getErrorMessage();
         }
 
         return null;
+    }
+
+    public function getCode()
+    {
+        return $this->response->getErrorCode() ?? parent::getCode();
     }
 
     public function getRedirectMethod(): string
