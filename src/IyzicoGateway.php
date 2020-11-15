@@ -145,7 +145,7 @@ class IyzicoGateway extends AbstractGateway
      * @param array $parameters
      * @return AbstractRequest
      */
-    public function cancelPurchase(array $parameters = array()): AbstractRequest
+    public function cancel(array $parameters = array()): AbstractRequest
     {
         return $this->createRequest(CancelPurchaseRequest::class, $parameters);
     }

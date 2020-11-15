@@ -10,7 +10,6 @@ use Omnipay\Iyzico\IyzicoHttp;
 
 class CancelPurchaseRequest extends AbstractRequest
 {
-
     /**
      * @return CreateCancelRequest
      */

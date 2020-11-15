@@ -3,7 +3,6 @@
 namespace Omnipay\Iyzico\Messages;
 
 use Exception;
-use Iyzipay\Model\Payment;
 use Iyzipay\Model\Refund;
 use Iyzipay\Request\CreateRefundRequest;
 use Omnipay\Common\Exception\InvalidRequestException;

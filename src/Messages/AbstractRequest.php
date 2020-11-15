@@ -136,6 +136,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest i
         return [];
     }
 
+    public function getIyzicoUrl(): string
+    {
+        return $this->iyzicoUrl ?? $this->getBaseUrl();
+    }
+
+    public function setIyzicoUrl(string $url): void
+    {
+        $this->iyzicoUrl = $url;
+    }
+
     protected function setRequestParams(array $data): void
     {
         array_walk_recursive($data, [$this, 'updateValue']);
@@ -148,11 +158,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest i
         if (\in_array($key, $sensitiveData, true)) {
             $data = IzyicoHelper::mask($data);
         }
-    }
-
-    protected function setIyzicoUrl(string $url): void
-    {
-        $this->iyzicoUrl = $url;
     }
 
     /**

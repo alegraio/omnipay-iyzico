@@ -36,7 +36,7 @@ class IyzicoHttp
         }
     }
 
-    public function setUrl(string $url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }

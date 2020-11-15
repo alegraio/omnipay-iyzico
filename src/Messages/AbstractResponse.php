@@ -34,6 +34,7 @@ abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 
     /**
      * @return mixed
+     * @throws \JsonException
      */
     public function getData()
     {

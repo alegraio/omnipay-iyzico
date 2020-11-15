@@ -40,6 +40,7 @@ class Purchase3dRequestTest extends IyzicoTestCase
 
         self::assertTrue($response->isSuccessful());
         self::assertTrue($response->isRedirect());
+        self::assertSame('https://sandbox-api.iyzipay.com/payment/3dsecure/initialize', $this->request->getIyzicoUrl());
         self::assertNull($response->getMessage());
     }
 
@@ -51,6 +52,7 @@ class Purchase3dRequestTest extends IyzicoTestCase
         self::assertFalse($response->isSuccessful());
         self::assertFalse($response->isRedirect());
         self::assertNull($response->getTransactionReference());
+        self::assertSame('https://sandbox-api.iyzipay.com/payment/3dsecure/initialize', $this->request->getIyzicoUrl());
         self::assertSame('12 : Kart numarası geçersizdir', $response->getMessage());
     }
 }

@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 11 Nov 2020 18:25:28 GMT
+Content-Type: application/json;charset=utf-8
+Content-Length: 179
+Connection: keep-alive
+Cache-Control: no-cache, no-store
+Request-Id: req_8PDHeZazN2LwML
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 300
+
+{
+    "status": "success",
+    "locale": "tr",
+    "systemTime": 1605447960839,
+    "paymentId": "12568377",
+    "price": 3,
+    "currency": "TRY",
+    "authCode": "608209",
+    "hostReference": "mock00001iyzihostrfn"
+}

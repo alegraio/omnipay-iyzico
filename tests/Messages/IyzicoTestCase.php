@@ -9,10 +9,7 @@ class IyzicoTestCase extends TestCase
 {
     protected function getPurchaseParams(): array
     {
-        return [
-            'testMode' => true,
-            'apiKey' => 'sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX',
-            'secretKey' => 'sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ',
+        $params = [
             'card' => $this->getValidCard(),
             'customer' => [
                 'clientId' => '23645',
@@ -43,5 +40,43 @@ class IyzicoTestCase extends TestCase
                 ]
             ]
         ];
+
+        return $this->provideMergedParams($params);
+    }
+
+    protected function getRefundParams(): array
+    {
+        $params = [
+            'paymentTransactionId' => '12823076',
+            'clientIp' => '11.11.11.111',
+            'amount' => '10'
+        ];
+
+        return $this->provideMergedParams($params);
+    }
+
+    protected function getCancelPurchaseParams(): array
+    {
+        $params = [
+            'paymentId' => '13292709',
+            'clientIp' => '11.11.11.111'
+        ];
+
+        return $this->provideMergedParams($params);
+    }
+
+    private function getDefaultOptions(): array
+    {
+        return [
+            'testMode' => true,
+            'apiKey' => 'sandbox-hys5W0pF51uDgkjsYmvEZXtBWF0aF0gX',
+            'secretKey' => 'sandbox-ZDHHKuo75gCWvgm1wZVfM1srsxRWQ3GZ',
+        ];
+    }
+
+    private function provideMergedParams($params): array
+    {
+        $params = array_merge($params, $this->getDefaultOptions());
+        return $params;
     }
 }
