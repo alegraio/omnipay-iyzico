@@ -45,6 +45,14 @@ class IyzicoGateway extends AbstractGateway
         return 'Iyzico';
     }
 
+    public function getDefaultParameters(): array
+    {
+        return [
+            'apikey' => '',
+            'secretKey' => '',
+        ];
+    }
+
     public function getApiKey()
     {
         return $this->getParameter('apiKey');
