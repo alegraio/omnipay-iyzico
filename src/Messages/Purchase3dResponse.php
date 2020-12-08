@@ -71,6 +71,13 @@ class Purchase3dResponse extends AbstractResponse
                 $value = '';
                 /* @var $name_o DOMAttr */
                 $name_o = $input_tags->item($i)->attributes->getNamedItem('name');
+                /* @var $type_o DOMAttr */
+                $type_o = $input_tags->item($i)->attributes->getNamedItem('type');
+                if (is_object($type_o) && $type_o !== null) {
+                    if ($type_o->value === 'submit') {
+                        continue;
+                    }
+                }
                 if (is_object($name_o) && $name_o !== null) {
                     $name = $name_o->value;
 
@@ -90,10 +97,20 @@ class Purchase3dResponse extends AbstractResponse
 
     private function parseRedirectUrl(): string
     {
-        if (!$form = $this->domDocument->getElementById($this->formId)) {
-            return '';
+        $redirectUrl = '';
+        if (!$forms = $this->domDocument->getElementsByTagName('form')) {
+            return $redirectUrl;
         }
-        return $form->getAttribute('action');
+        for ($i = 0; $i < $forms->length; $i++) {
+            if (is_object($forms->item($i))) {
+                /* @var $action_o DOMAttr */
+                $action_o = $forms->item($i)->attributes->getNamedItem('action');
+                if (is_object($action_o) && $action_o !== null) {
+                    $redirectUrl = $action_o->value;
+                }
+            }
+        }
+        return $redirectUrl;
     }
 
     /**
