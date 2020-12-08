@@ -105,7 +105,7 @@ class Purchase3dResponse extends AbstractResponse
             if (is_object($forms->item($i))) {
                 /* @var $action_o DOMAttr */
                 $action_o = $forms->item($i)->attributes->getNamedItem('action');
-                if (is_object($action_o) && $action_o !== null) {
+                if (is_object($action_o)) {
                     $redirectUrl = $action_o->value;
                 }
             }
