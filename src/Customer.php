@@ -25,7 +25,7 @@ class Customer
      *
      * If any unknown parameters passed, they will be ignored.
      *
-     * @param array $parameters An associative array of parameters
+     * @param array|null $parameters An associative array of parameters
      * @return $this
      */
     public function initialize(array $parameters = null): self
