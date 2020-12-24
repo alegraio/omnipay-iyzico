@@ -1,0 +1,14 @@
+{
+  "name": "payment/examples",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.3",
+    "league/omnipay": "^3",
+    "alegra/omnipay-iyzico": "v0.0.19"
+  },
+  "autoload": {
+    "psr-4": {
+      "Examples\\": "examples/"
+    }
+  }
+}
