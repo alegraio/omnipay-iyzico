@@ -47,6 +47,9 @@ composer install
 **Purchase Example**
 
 - You can check purchase.php file in /examples folder.
+- force3ds parameter is included in the parameters. It shows the status of card.
+  If you test direct purchase, you should send **0** value. It's type is string.
+  If you don't send this force3ds parameter, system check status of card. System uses iyzico-installmentInfo function.
 
 ```php
 <?php
@@ -82,6 +85,10 @@ try {
 **Purchase 3d Example**
 
 - You can check purchase3d.php file in /examples folder.
+- force3ds parameter is included in the parameters. It shows the status of card.
+  If you test purchase 3d, you should send **1** value. It's type is string.
+  If you don't send this force3ds parameter, system check status of card. System uses iyzico-installmentInfo function.
+- Redirect data will come to your return url. You should give returnUrl in purchase3d request.
 
 ```php
 <?php
@@ -120,6 +127,7 @@ try {
 **Complete Purchase Example**
 
 - You can check completePurchase.php file in /examples folder.
+- Request parameters are created from the data you receive as a result of the 3d payment request. 
 
 ```php
 <?php
