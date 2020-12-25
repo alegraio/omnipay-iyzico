@@ -3,7 +3,6 @@
 namespace Examples;
 
 use Iyzipay\Model\BasketItemType;
-use Exception;
 use Iyzipay\Model\Locale;
 
 class Helper
@@ -11,7 +10,6 @@ class Helper
 
     /**
      * @return array
-     * @throws Exception
      */
     public function getPurchaseParams(): array
     {
@@ -24,7 +22,6 @@ class Helper
 
     /**
      * @return array
-     * @throws Exception
      */
     public function getPurchase3dParams(): array
     {
@@ -38,7 +35,6 @@ class Helper
 
     /**
      * @return array
-     * @throws \Exception
      */
     public function getDefaultPurchaseParams(): array
     {
@@ -166,7 +162,6 @@ class Helper
 
     /**
      * @return array
-     * @throws \Exception
      */
     private function getValidCard(): array
     {
