@@ -16,7 +16,7 @@
   },
   "require": {
     "omnipay/common": "^3",
-    "iyzico/iyzipay-php": "~2.0",
+    "iyzico/iyzipay-php": "^2",
     "ext-json": "*",
     "ext-dom": "*"
   },
