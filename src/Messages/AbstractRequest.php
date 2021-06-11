@@ -6,6 +6,8 @@ use Iyzipay\JsonConvertible;
 use Iyzipay\Model\Locale;
 use Iyzipay\Options;
 use Omnipay\Iyzico\Customer;
+use Omnipay\Common\CreditCard;
+use Omnipay\Iyzico\Card;
 use Omnipay\Iyzico\Helper\IzyicoHelper;
 use Omnipay\Iyzico\IyzicoRequestInterface;
 
@@ -170,5 +172,20 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest i
             'data' => $this->requestParams,
             'method' => 'POST'
         ];
+    }
+
+    /**
+     * Sets the card.
+     *
+     * @param CreditCard $value
+     * @return $this
+     */
+    public function setCard($value)
+    {
+        if ($value && !$value instanceof Card) {
+            $value = new Card($value);
+        }
+
+        return $this->setParameter('card', $value);
     }
 }
