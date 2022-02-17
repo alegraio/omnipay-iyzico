@@ -34,7 +34,7 @@ use Omnipay\Iyzico\Messages\AuthorizeRequest;
  * @method RequestInterface void(array $options = array())
  * @method RequestInterface updateCard(array $options = array())
  */
-class IyzicoGateway extends AbstractGateway
+class Gateway extends AbstractGateway
 {
 
     /**
@@ -68,17 +68,17 @@ class IyzicoGateway extends AbstractGateway
         return $this->getParameter('baseUrl');
     }
 
-    public function setApiKey($apiKey): IyzicoGateway
+    public function setApiKey($apiKey): Gateway
     {
         return $this->setParameter('apiKey', $apiKey);
     }
 
-    public function setSecretKey($apiSecret): IyzicoGateway
+    public function setSecretKey($apiSecret): Gateway
     {
         return $this->setParameter('secretKey', $apiSecret);
     }
 
-    public function setBaseUrl($baseUrl): IyzicoGateway
+    public function setBaseUrl($baseUrl): Gateway
     {
         return $this->setParameter('baseUrl', $baseUrl);
     }

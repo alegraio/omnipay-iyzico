@@ -3,18 +3,18 @@
 namespace OmnipayTest\Iyzico;
 
 use Omnipay\Common\Message\RequestInterface;
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Omnipay\Iyzico\Messages\AuthorizeRequest;
 use Omnipay\Iyzico\Messages\CompletePurchaseRequest;
 use Omnipay\Iyzico\Messages\Purchase3dRequest;
 use Omnipay\Iyzico\Messages\PurchaseRequest;
 use Omnipay\Tests\GatewayTestCase;
 
-class IyzicoGatewayTest extends GatewayTestCase
+class GatewayTest extends GatewayTestCase
 {
     public function setUp(): void
     {
-        $this->gateway = new IyzicoGateway($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
     }
 
     public function testSupportsPurchase(): void
