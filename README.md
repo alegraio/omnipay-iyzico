@@ -57,10 +57,10 @@ composer install
 $loader = require __DIR__ . '/vendor/autoload.php';
 $loader->addPsr4('Examples\\', __DIR__);
 
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Examples\Helper;
 
-$gateway = new IyzicoGateway();
+$gateway = new Gateway();
 $helper = new Helper();
 
 try {
@@ -96,10 +96,10 @@ try {
 $loader = require __DIR__ . '/vendor/autoload.php';
 $loader->addPsr4('Examples\\', __DIR__);
 
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Examples\Helper;
 
-$gateway = new IyzicoGateway();
+$gateway = new Gateway();
 $helper = new Helper();
 
 try {
@@ -135,10 +135,10 @@ try {
 $loader = require __DIR__ . '/vendor/autoload.php';
 $loader->addPsr4('Examples\\', __DIR__);
 
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Examples\Helper;
 
-$gateway = new IyzicoGateway();
+$gateway = new Gateway();
 $helper = new Helper();
 
 try {
@@ -169,10 +169,10 @@ try {
 $loader = require __DIR__ . '/vendor/autoload.php';
 $loader->addPsr4('Examples\\', __DIR__);
 
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Examples\Helper;
 
-$gateway = new IyzicoGateway();
+$gateway = new Gateway();
 $helper = new Helper();
 
 try {
@@ -204,10 +204,10 @@ try {
 $loader = require __DIR__ . '/vendor/autoload.php';
 $loader->addPsr4('Examples\\', __DIR__);
 
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Examples\Helper;
 
-$gateway = new IyzicoGateway();
+$gateway = new Gateway();
 $helper = new Helper();
 
 try {
@@ -238,10 +238,10 @@ try {
 $loader = require __DIR__ . '/vendor/autoload.php';
 $loader->addPsr4('Examples\\', __DIR__);
 
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Examples\Helper;
 
-$gateway = new IyzicoGateway();
+$gateway = new Gateway();
 $helper = new Helper();
 
 try {
@@ -272,10 +272,10 @@ try {
 $loader = require __DIR__ . '/vendor/autoload.php';
 $loader->addPsr4('Examples\\', __DIR__);
 
-use Omnipay\Iyzico\IyzicoGateway;
+use Omnipay\Iyzico\Gateway;
 use Examples\Helper;
 
-$gateway = new IyzicoGateway();
+$gateway = new Gateway();
 $helper = new Helper();
 
 try {
